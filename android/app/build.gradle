@@ -43,7 +43,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.onestar92.sigppang_e"
+    namespace "com.onestar92.sigppange.sigppang_e"
     compileSdkVersion flutterCompileSdkVersion.toInteger()
     ndkVersion flutter.ndkVersion
 
