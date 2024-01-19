@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
           title: 'SigPpangE',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            fontFamily: 'Suite',
             useMaterial3: true,
           ),
           home: child,
