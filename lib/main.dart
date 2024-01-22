@@ -23,6 +23,11 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: 'Suite',
             scaffoldBackgroundColor: Colors.white,
+            appBarTheme: const AppBarTheme(
+              toolbarHeight: 50,
+              scrolledUnderElevation: 0,
+              backgroundColor: Colors.white,
+            ),
             useMaterial3: true,
           ),
           home: child,
