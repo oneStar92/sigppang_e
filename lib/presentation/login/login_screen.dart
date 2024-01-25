@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sigppang_e/presentation/common/logo_widget.dart';
+import 'package:sigppang_e/common/di/logo_container.dart';
 import 'package:sigppang_e/presentation/login/widgets/social_login_buttons.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -13,7 +12,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: LogoWidget(logoHeight: 300.h, logoWidth: 300.w)),
+            Expanded(child: LogoDIContainer.instance.loginLogo()),
             Expanded(child: SocialLoginButtons()),
           ],
         ),

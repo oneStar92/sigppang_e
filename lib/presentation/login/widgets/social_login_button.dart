@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sigppang_e/common/constants/size_constants.dart';
+import 'package:sigppang_e/common/constants/text_style_constants.dart';
 import 'package:sigppang_e/presentation/common/tappable_widget.dart';
 
 enum SocialLogin { google, apple }
 
 final class SocialLoginButton extends TappableWidget {
-  final double _logoHeight = 40.h;
-  final double _fontSize = 20.sp;
+  final _size = SizeConstants.socialLogo.value;
   final SocialLogin _socialLogin;
 
   SocialLoginButton({
@@ -39,18 +40,18 @@ final class SocialLoginButton extends TappableWidget {
   Widget _logo() {
     switch (_socialLogin) {
       case SocialLogin.google:
-        return SvgPicture.asset('assets/icons/google.svg', fit: BoxFit.cover, height: _logoHeight, width: _logoHeight,);
+        return SvgPicture.asset('assets/icons/google.svg', fit: BoxFit.cover, height: _size.height, width: _size.width,);
       case SocialLogin.apple:
-        return SvgPicture.asset('assets/icons/apple.svg', fit: BoxFit.cover, height: _logoHeight, width: _logoHeight,);
+        return SvgPicture.asset('assets/icons/apple.svg', fit: BoxFit.cover, height: _size.height, width: _size.width,);
     }
   }
 
   Widget _text() {
     switch (_socialLogin) {
       case SocialLogin.google:
-        return Text('Google로 로그인', style: TextStyle(fontSize: _fontSize, color: Colors.black), );
+        return Text('Google로 로그인', style: TextStyleConstants.googleLoginButton.value);
       case SocialLogin.apple:
-        return Text('Apple로 로그인', style: TextStyle(fontSize: _fontSize, color: Colors.white),);
+        return Text('Apple로 로그인', style: TextStyleConstants.appleLoginButton.value);
     }
   }
 }
