@@ -1,1 +1,0 @@
-const String defaultLocale = 'ko_KR';
