@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/common/di/logo_container.dart';
 import 'package:sigppang_e/common/constants/size_constants.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calednar/day_of_week_widget.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calednar/default_date_widget.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calednar/now_date_widget.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calednar/outside_date_widget.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calednar/selected_date_widget.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar/day_of_week_widget.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar/default_date_widget.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar/now_date_widget.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar/outside_date_widget.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar/selected_date_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 final class SigppangECalendar extends StatelessWidget {
