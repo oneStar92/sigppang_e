@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sigppang_e/common/constants/text_style_constants.dart';
+import 'package:sigppang_e/common/constants/text_styles.dart';
 
 final class DefaultDate extends StatelessWidget {
   final Widget _logo;
@@ -22,7 +22,7 @@ final class DefaultDate extends StatelessWidget {
           child: Text(
             _day,
             textAlign: TextAlign.center,
-            style: TextStyleConstants.day.value,
+            style: TextStyles.dayTextStyle,
           ),
         ),
       ],

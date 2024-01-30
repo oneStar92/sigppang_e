@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
-import 'package:sigppang_e/common/constants/text_style_constants.dart';
+import 'package:sigppang_e/common/constants/text_styles.dart';
 
 final class DayOfWeek extends StatelessWidget {
   final DateTime _day;
@@ -16,11 +16,11 @@ final class DayOfWeek extends StatelessWidget {
   TextStyle get _textStyle {
     switch (_day.weekday) {
       case DateTime.sunday:
-        return TextStyleConstants.sunday.value;
+        return TextStyles.sundayTextStyle;
       case DateTime.saturday:
-        return TextStyleConstants.saturday.value;
+        return TextStyles.saturdayTextStyle;
       default:
-        return TextStyleConstants.defaultDayOfWeek.value;
+        return TextStyles.defaultDayOfWeekTextStyle;
     }
   }
 
