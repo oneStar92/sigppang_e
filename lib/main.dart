@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('ko');
   runApp(const MyApp());
 }
 
@@ -23,6 +26,11 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: 'Suite',
             scaffoldBackgroundColor: Colors.white,
+            appBarTheme: const AppBarTheme(
+              toolbarHeight: 50,
+              scrolledUnderElevation: 0,
+              backgroundColor: Colors.white,
+            ),
             useMaterial3: true,
           ),
           home: child,
