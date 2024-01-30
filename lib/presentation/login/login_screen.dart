@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: SigppangELogo.builder(size: Sizes.socialLoginLogoSize)),
+            Expanded(child: SigppangELogo.build(size: Sizes.socialLoginLogoSize)),
             Expanded(child: SocialLoginButtons()),
           ],
         ),
