@@ -26,14 +26,50 @@ final class SigppangECalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        _title(),
+        SizedBox(height: 4.h),
+        _calendar(),
+      ],
+    );
+  }
+
+  Widget _title() {
+    final size = Sizes.calendarHeaderSize;
+    return SizedBox(
+      height: size.height,
+      width: size.width,
+      child: Row(
+        children: [
+          Text(
+            '2024년 1월',
+            style: TextStyles.calendarHeaderTextStyle,
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.unfold_less),
+            padding: EdgeInsets.zero,
+            iconSize: size.height * 0.7,
+            color: Colors.black,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _calendar() {
     return TableCalendar(
       locale: defaultLocale,
       focusedDay: _focusedDay,
+      calendarFormat: CalendarFormat.month,
       firstDay: _firstDate,
       lastDay: _lastDate,
       headerVisible: false,
       daysOfWeekHeight: _dayOfWeekHeight,
       rowHeight: _calendarRowHeight,
+      availableGestures: AvailableGestures.horizontalSwipe,
       selectedDayPredicate: (day) => isSameDay(day, DateTime(2024, 1, 24)),
       calendarBuilders: CalendarBuilders(
         dowBuilder: (_, day) {
