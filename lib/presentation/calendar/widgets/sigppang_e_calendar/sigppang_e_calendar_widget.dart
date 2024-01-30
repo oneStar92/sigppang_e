@@ -41,25 +41,25 @@ final class SigppangECalendar extends StatelessWidget {
         },
         selectedBuilder: (_, selectedDate, currentDate) {
           return SelectedDate(
-            logo: SigppangELogo.builder(size: Sizes.calendarDayLogoSize),
+            logo: SigppangELogo.build(size: Sizes.calendarDayLogoSize),
             selectedDay: selectedDate.day.toString(),
           );
         },
         todayBuilder: (_, day, currentDay) {
           return NowDate(
-            logo: SigppangELogo.builder(size: Sizes.calendarDayLogoSize),
+            logo: SigppangELogo.build(size: Sizes.calendarDayLogoSize),
             day: day.day.toString(),
           );
         },
         defaultBuilder: (_, day, currentDay) {
           return DefaultDate(
-            logo: SigppangELogo.builder(size: Sizes.calendarDayLogoSize),
+            logo: SigppangELogo.build(size: Sizes.calendarDayLogoSize),
             day: day.day.toString(),
           );
         },
         outsideBuilder: (_, day, currentDay) {
           return OutsideDateWidget(
-            logo: SigppangELogo.builder(size: Sizes.calendarDayLogoSize),
+            logo: SigppangELogo.build(size: Sizes.calendarDayLogoSize),
             day: day.day.toString(),
           );
         },
