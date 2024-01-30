@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:sigppang_e/common/constants/text_style_constants.dart';
+import 'package:sigppang_e/common/constants/text_styles.dart';
 
 final class PolicyTextWidget extends StatelessWidget {
   const PolicyTextWidget({super.key});
@@ -9,7 +9,7 @@ final class PolicyTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: TextStyleConstants.policy.value,
+        style: TextStyles.policyTextStyle,
         children: <TextSpan>[
           TextSpan(
             text: '이용약관',

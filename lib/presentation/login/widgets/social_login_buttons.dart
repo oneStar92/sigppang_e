@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sigppang_e/common/constants/size_constants.dart';
+import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/presentation/login/widgets/policy_text_widget.dart';
 import 'package:sigppang_e/presentation/login/widgets/social_login_button.dart';
 
 final class SocialLoginButtons extends StatelessWidget {
-  final _size = SizeConstants.socialLoginButton.value;
+  final _size = Sizes.socialLoginButtonSize;
 
   SocialLoginButtons({super.key});
 

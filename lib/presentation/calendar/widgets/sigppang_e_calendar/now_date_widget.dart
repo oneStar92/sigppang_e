@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sigppang_e/common/constants/text_style_constants.dart';
+import 'package:sigppang_e/common/constants/text_styles.dart';
 
-class NowDate extends StatelessWidget {
+final class NowDate extends StatelessWidget {
   final Widget _logo;
   final String _day;
 
@@ -25,7 +25,7 @@ class NowDate extends StatelessWidget {
               child: Text(
                 _day,
                 textAlign: TextAlign.center,
-                style: TextStyleConstants.now.value,
+                style: TextStyles.nowTextStyle,
               ),
             ),
           ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sigppang_e/common/constants/size_constants.dart';
-import 'package:sigppang_e/common/constants/text_style_constants.dart';
+import 'package:sigppang_e/common/constants/sizes.dart';
+import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/presentation/common/tappable_widget.dart';
 
 enum SocialLogin { google, apple }
 
 final class SocialLoginButton extends TappableWidget {
-  final _size = SizeConstants.socialLogo.value;
+  final _size = Sizes.socialLoginButtonSize;
   final SocialLogin _socialLogin;
 
   SocialLoginButton({
@@ -49,9 +49,9 @@ final class SocialLoginButton extends TappableWidget {
   Widget _text() {
     switch (_socialLogin) {
       case SocialLogin.google:
-        return Text('Google로 로그인', style: TextStyleConstants.googleLoginButton.value);
+        return Text('Google로 로그인', style: TextStyles.googleLoginButtonTextStyle);
       case SocialLogin.apple:
-        return Text('Apple로 로그인', style: TextStyleConstants.appleLoginButton.value);
+        return Text('Apple로 로그인', style: TextStyles.appleLoginButtonTextStyle);
     }
   }
 }
