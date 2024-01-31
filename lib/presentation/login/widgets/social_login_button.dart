@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
@@ -21,11 +20,11 @@ final class SocialLoginButton extends TappableWidget {
   Widget createContent(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10)).r,
+        borderRadius: Sizes.defaultBorderRadius,
         border: Border.all(color: Colors.grey),
         color: _socialLogin == SocialLogin.apple ? Colors.black : Colors.white,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: Sizes.defaultHorizontalPadding,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
