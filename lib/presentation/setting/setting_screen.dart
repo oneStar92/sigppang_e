@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
-import 'package:sigppang_e/presentation/setting_screen/widgets/icon_text_button.dart';
-import 'package:sigppang_e/presentation/setting_screen/widgets/profile_widget.dart';
+import 'package:sigppang_e/presentation/setting/widgets/icon_text_button.dart';
+import 'package:sigppang_e/presentation/setting/widgets/profile_widget.dart';
 
 final class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
