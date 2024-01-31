@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/presentation/common/sigppang_e_logo.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
@@ -30,7 +29,7 @@ final class SigppangECalendar extends StatelessWidget {
       direction: Axis.vertical,
       children: [
         _title(),
-        SizedBox(height: 4.h),
+        SizedBox(height: Sizes.defaultPaddingOfHeight),
         _calendar(),
       ],
     );
@@ -49,7 +48,7 @@ final class SigppangECalendar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.unfold_less),
+            icon: const Icon(Icons.unfold_less),
             padding: EdgeInsets.zero,
             iconSize: size.height * 0.7,
             color: Colors.black,

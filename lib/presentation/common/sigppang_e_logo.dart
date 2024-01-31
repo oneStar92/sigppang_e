@@ -11,10 +11,10 @@ final class SigppangELogo {
 
   static Widget build({
     required Size size,
-    ToDoState sigppangE = ToDoState.done,
+    ToDoState state = ToDoState.done,
   }) {
     final Image logo;
-    switch (sigppangE) {
+    switch (state) {
       case ToDoState.ready:
         logo = _rawLogo;
       case ToDoState.done:

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item_widget.dart';
@@ -17,7 +16,7 @@ final class ToDoList extends StatelessWidget {
     return Column(
       children: [
         _titleWidget(),
-        SizedBox(height: 8.h),
+        SizedBox(height: Sizes.defaultPaddingOfHeight),
         _toDoList(),
       ],
     );
@@ -31,10 +30,10 @@ final class ToDoList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(_title, style: TextStyles.toDoListTitleTextStyle),
-          SizedBox(width: 8.w),
+          SizedBox(width: Sizes.defaultPaddingOfWidth),
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             padding: EdgeInsets.zero,
             iconSize: size.height * 0.7,
           ),
@@ -50,11 +49,11 @@ final class ToDoList extends StatelessWidget {
       primary: false,
       itemCount: 10,
       itemBuilder: (context, index) {
-        return ToDoItem();
+        return const ToDoItem();
       },
       separatorBuilder: (context, index) {
         return Divider(
-          height: 4.h,
+          height: Sizes.separatorHeight,
           color: Colors.transparent,
         );
       },

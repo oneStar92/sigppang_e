@@ -3,7 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final class Sizes {
   static final defaultAppPadding = REdgeInsets.all(16);
-  static final defaultWidgetPadding = 8.w;
+  static final defaultHorizontalPadding = REdgeInsets.symmetric(horizontal: 8);
+  static final defaultBorderRadius = const BorderRadius.all(Radius.circular(10)).r;
+  static final defaultPaddingOfWidth = 8.w;
+  static final defaultPaddingOfHeight = 8.h;
+  static final separatorHeight = 4.h;
   static final loginLogoSize = Size(300.w, 300.h);
   static final socialLoginButtonSize = Size(300.w, 60.h);
   static final socialLoginLogoSize = Size(40.w, 40.h);

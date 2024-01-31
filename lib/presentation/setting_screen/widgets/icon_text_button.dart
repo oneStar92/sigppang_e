@@ -34,7 +34,7 @@ final class IconTextButton extends TappableWidget {
                 width: constraints.maxHeight * 0.5,
                 child: FittedBox(child: _icon),
               ),
-              SizedBox(width: Sizes.defaultWidgetPadding),
+              SizedBox(width: Sizes.defaultPaddingOfWidth),
               Text(
                 _title,
                 style: TextStyles.settingButtonTextStyle.copyWith(color: _color),
