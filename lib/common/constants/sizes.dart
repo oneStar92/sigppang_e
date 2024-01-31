@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final class Sizes {
+  static final defaultAppPadding = REdgeInsets.all(16);
+  static final defaultWidgetPadding = 8.w;
   static final loginLogoSize = Size(300.w, 300.h);
   static final socialLoginButtonSize = Size(300.w, 60.h);
   static final socialLoginLogoSize = Size(40.w, 40.h);
@@ -13,6 +15,7 @@ final class Sizes {
   static final toDoTitleSize = Size(double.infinity, 40.h);
   static final toDoItemSize = Size(double.infinity, 35.h);
   static final toDoItemLogoSize = Size(35.w, 35.h);
+  static final settingButtonSize = Size(double.infinity, 60.h);
 
   Sizes._();
 }

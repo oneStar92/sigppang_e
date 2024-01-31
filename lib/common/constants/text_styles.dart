@@ -14,6 +14,8 @@ final class TextStyles {
   static final selectedDayTextStyle = TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.w900);
   static final toDoListTitleTextStyle = TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700);
   static final toDoItemTextStyle = TextStyle(fontSize: 16.sp, height: 1);
+  static final profileTitleTextStyle = TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w700);
+  static final settingButtonTextStyle = TextStyle(fontSize: 24.sp);
 
   TextStyles._();
 }
