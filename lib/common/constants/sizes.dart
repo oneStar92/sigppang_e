@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final class Sizes {
-  static final defaultAppPadding = REdgeInsets.all(16);
+  static final defaultAppPadding = REdgeInsets.fromLTRB(16, 16, 16, 0);
   static final defaultHorizontalPadding = REdgeInsets.symmetric(horizontal: 8);
   static final defaultBorderRadius = const BorderRadius.all(Radius.circular(10)).r;
+  static const appBarHeight = 50.0;
+  static const bottomNavigationBarHeight = 50.0;
   static final defaultPaddingOfWidth = 8.w;
   static final defaultPaddingOfHeight = 8.h;
   static final separatorHeight = 4.h;
