@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:sigppang_e/common/constants/sizes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Suite',
             scaffoldBackgroundColor: Colors.white,
             appBarTheme: const AppBarTheme(
-              toolbarHeight: 50,
+              toolbarHeight: Sizes.appBarHeight,
               scrolledUnderElevation: 0,
               backgroundColor: Colors.white,
             ),
