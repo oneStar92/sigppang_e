@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/presentation/setting/widgets/icon_text_button.dart';
-import 'package:sigppang_e/presentation/setting/widgets/profile_widget.dart';
 
 final class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -13,7 +12,7 @@ final class SettingScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const ProfileWidget(),
+        _profile(),
         SizedBox(
           height: buttonSize.height,
           width: buttonSize.width,
@@ -69,5 +68,9 @@ final class SettingScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget _profile({String name = 'Guest'}) {
+    return Text(name, maxLines: 1, style: TextStyles.profileTitleTextStyle);
   }
 }
