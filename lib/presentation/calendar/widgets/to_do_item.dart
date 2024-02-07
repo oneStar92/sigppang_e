@@ -5,6 +5,7 @@ import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_checkbox.dar
 
 final class ToDoItem extends StatelessWidget {
   final String _hint = '일정을 입력해 주세요.';
+
   const ToDoItem({super.key});
 
   @override

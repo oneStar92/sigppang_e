@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar/sigppang_e_calendar_widget.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/to_do_list.dart';
+import 'package:sigppang_e/common/constants/text_styles.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar.dart';
+import 'package:sigppang_e/presentation/calendar/widgets/to_do_item.dart';
 
 final class CalendarScreen extends StatelessWidget {
   const CalendarScreen({super.key});
