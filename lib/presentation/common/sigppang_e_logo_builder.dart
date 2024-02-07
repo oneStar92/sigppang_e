@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 enum ToDoState { ready, done, unfinished }
 
-final class SigppangELogo {
+final class SigppangELogoBuilder {
   static final _rawLogo = Image.asset('assets/icons/logo_w.png');
   static final _logo = Image.asset('assets/icons/logo.png');
   static final _burntLogo = Image.asset('assets/icons/logo_b.png');
 
-  SigppangELogo._();
+  SigppangELogoBuilder._();
 
   static Widget build({
     required Size size,

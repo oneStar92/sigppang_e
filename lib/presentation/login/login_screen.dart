@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
-import 'package:sigppang_e/presentation/common/sigppang_e_logo.dart';
+import 'package:sigppang_e/presentation/common/sigppang_e_logo_builder.dart';
 import 'package:sigppang_e/presentation/login/widgets/social_login_button.dart';
 
 final class LoginScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ final class LoginScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: SigppangELogo.build(size: Sizes.socialLoginLogoSize)),
+            Expanded(child: SigppangELogoBuilder.build(size: Sizes.socialLoginLogoSize)),
             Expanded(child: _socialLoginButtons()),
           ],
         ),
