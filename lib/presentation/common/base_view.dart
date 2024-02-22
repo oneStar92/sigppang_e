@@ -25,36 +25,48 @@ abstract class BaseViewState<T extends ViewModel, U extends BaseView<T>> extends
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: viewModel.isLoadingStream,
-      builder: (context, snapshot) {
-        return Stack(
-          children: [
-            Positioned.fill(child: createContent(context)),
-            Offstage(
-              offstage: snapshot.data ?? false,
-              child: const Positioned.fill(
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Opacity(
-                        opacity: 0.5,
-                        child: ModalBarrier(
-                          dismissible: false,
-                          color: Colors.black,
+    return Scaffold(
+      appBar: createAppbar(context),
+      body: StreamBuilder(
+        stream: viewModel.isLoadingStream,
+        builder: (context, snapshot) {
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: SafeArea(child: createBody(context)),
+              ),
+              Positioned.fill(
+                child: Offstage(
+                  offstage: snapshot.data ?? false,
+                  child: const Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: ModalBarrier(
+                            dismissible: false,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    Center(child: CircularProgressIndicator())
-                  ],
+                      Center(
+                        child: CircularProgressIndicator(color: Colors.grey,),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            )
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
+      bottomNavigationBar: createBottomNavigationBar(context),
     );
   }
 
-  Widget createContent(BuildContext context);
+  PreferredSizeWidget? createAppbar(BuildContext context) => null;
+
+  Widget createBody(BuildContext context);
+
+  Widget? createBottomNavigationBar(BuildContext context) => null;
 }
