@@ -6,6 +6,7 @@ import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
 import 'package:sigppang_e/presentation/common/sigppang_e_logo_builder.dart';
 import 'package:sigppang_e/presentation/login/login_view_model.dart';
+import 'package:sigppang_e/presentation/login/model/login_screen_action.dart';
 import 'package:sigppang_e/presentation/login/widgets/social_login_button.dart';
 
 final class LoginScreen extends BaseView<LoginViewModel> {
@@ -41,7 +42,7 @@ final class LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen> 
           SizedBox(
             height: size.height,
             child: SocialLoginButton(
-              onTap: () {},
+              onTap: () => viewModel.act(GoogleLogin()),
               socialLogin: SocialLogin.google,
             ),
           ),
@@ -50,7 +51,7 @@ final class LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen> 
               ? SizedBox(
                   height: size.height,
                   child: SocialLoginButton(
-                    onTap: () {},
+                    onTap: () => viewModel.act(AppleLogin()),
                     socialLogin: SocialLogin.apple,
                   ),
                 )
