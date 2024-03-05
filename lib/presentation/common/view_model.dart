@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:sigppang_e/presentation/common/activity_tracker.dart';
+import 'package:sigppang_e/presentation/util/activity_tracker.dart';
 import 'package:sigppang_e/presentation/common/screen_action.dart';
 
 abstract class ViewModel<T extends ScreenAction> {

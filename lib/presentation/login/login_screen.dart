@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
-import 'package:sigppang_e/presentation/common/sigppang_e_logo_builder.dart';
+import 'package:sigppang_e/presentation/util/sigppang_e_logo_builder.dart';
 import 'package:sigppang_e/presentation/login/login_view_model.dart';
 import 'package:sigppang_e/presentation/login/model/login_screen_action.dart';
 import 'package:sigppang_e/presentation/login/widgets/social_login_button.dart';

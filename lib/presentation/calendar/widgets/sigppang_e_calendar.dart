@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
-import 'package:sigppang_e/presentation/common/sigppang_e_logo_builder.dart';
+import 'package:sigppang_e/presentation/util/sigppang_e_logo_builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 final class SigppangECalendar extends StatelessWidget {
