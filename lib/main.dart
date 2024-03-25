@@ -1,12 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
+import 'package:sigppang_e/di/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko');
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -21,7 +24,8 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: false,
       builder: (_, child) {
-        return MaterialApp(
+        return MaterialApp.router(
+          routerConfig: router,
           title: 'SigPpangE',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
@@ -34,10 +38,8 @@ class MyApp extends StatelessWidget {
             ),
             useMaterial3: true,
           ),
-          home: child,
         );
       },
-      child: Container(),
     );
   }
 }
