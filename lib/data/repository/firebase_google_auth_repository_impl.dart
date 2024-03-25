@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sigppang_e/domain/repository/firebase_auth_repository.dart';
+import 'package:sigppang_e/domain/repository/auth_repository.dart';
 
-final class FirebaseGoogleAuthRepositoryImpl implements FirebaseAuthRepository {
+final class FirebaseGoogleAuthRepositoryImpl implements AuthRepository {
   @override
-  Future<UserCredential?> login() async {
-    final GoogleSignInAccount? account = await GoogleSignIn().signIn();
+  Future<void> login() async {
+    final account = await GoogleSignIn().signIn();
 
     if (account != null) {
       final GoogleSignInAuthentication authentication = await account.authentication;
@@ -14,9 +14,11 @@ final class FirebaseGoogleAuthRepositoryImpl implements FirebaseAuthRepository {
         accessToken: authentication.accessToken,
       );
 
-      return FirebaseAuth.instance.signInWithCredential(credential);
+      return FirebaseAuth.instance
+          .signInWithCredential(credential)
+          .then((value) => value != null ? Future.value(null) : Future.error(Error()));
     }
-    return Future.value(null);
+    return Future.error(Error());
   }
 
   @override
