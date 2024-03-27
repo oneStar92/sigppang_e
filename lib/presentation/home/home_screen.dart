@@ -1,59 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
-import 'package:sigppang_e/presentation/calendar/calendar_screen.dart';
-import 'package:sigppang_e/presentation/setting/setting_screen.dart';
 
-final class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+final class HomeScreen extends StatelessWidget {
+  final StatefulNavigationShell _navigationShell;
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  final List<Widget> _pages = [const CalendarScreen(), const SettingScreen()];
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  const HomeScreen({
+    super.key,
+    required StatefulNavigationShell navigationShell,
+  }) : _navigationShell = navigationShell;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: Sizes.defaultAppPadding,
-          child: TabBarView(
-            controller: _tabController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _pages,
-          ),
-        ),
-      ),
+      body: SafeArea(child: Padding(
+        padding: Sizes.defaultAppPadding,
+        child: _navigationShell,
+      )),
       bottomNavigationBar: SafeArea(
-        child: SizedBox(
-          height: Sizes.bottomNavigationBarHeight,
-          child: TabBar(
-            controller: _tabController,
-            padding: EdgeInsets.zero,
-            dividerColor: Colors.transparent,
-            indicatorColor: Colors.black,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey,
-            isScrollable: false,
-            tabs: const [
-              Tab(icon: Icon(Icons.calendar_month)),
-              Tab(icon: Icon(Icons.more_horiz)),
-            ],
+        child: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(top: BorderSide(color: Colors.grey, width: 1.0)),
+            ),
+            child: BottomNavigationBar(
+              currentIndex: _navigationShell.currentIndex,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: '홈'),
+                BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: '기타')
+              ],
+              backgroundColor: Colors.white,
+              selectedItemColor: Colors.black,
+              unselectedItemColor: Colors.grey,
+              elevation: 0,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              enableFeedback: false,
+              onTap: (int index) => _navigationShell.goBranch(index),
+            ),
           ),
         ),
       ),
