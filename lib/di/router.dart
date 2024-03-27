@@ -4,13 +4,35 @@ import 'package:sigppang_e/presentation/util/auth_notifier.dart';
 
 const loginScreenPath = '/login';
 const homeScreenPath = '/home';
+const calendarScreenPath = '/calendar';
+const settingScreenPath = '/setting';
 const initialLocation = loginScreenPath;
 
 final router = GoRouter(
   initialLocation: initialLocation,
   routes: [
     GoRoute(path: loginScreenPath, builder: (context, state) => ScreenProvider.buildLoginScreen()),
-    GoRoute(path: homeScreenPath, builder: (context, state) => ScreenProvider.buildHomeScreen()),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) => ScreenProvider.buildHomeScreen(navigationShell),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: calendarScreenPath,
+              builder: (context, state) => ScreenProvider.buildCalendarScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: settingScreenPath,
+              builder: (context, state) => ScreenProvider.buildSettingScreen(),
+            ),
+          ],
+        ),
+      ],
+    )
   ],
   refreshListenable: AuthNotifier.instance,
   redirect: (context, state) {
@@ -18,7 +40,7 @@ final router = GoRouter(
     final currentPath = state.fullPath;
     if (currentUser != null) {
       if (currentPath == loginScreenPath) {
-        return homeScreenPath;
+        return calendarScreenPath;
       } else {
         return currentPath;
       }
