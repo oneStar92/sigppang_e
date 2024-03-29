@@ -6,13 +6,19 @@ import 'package:sigppang_e/presentation/common/screen_action.dart';
 import 'package:sigppang_e/presentation/common/view_model.dart';
 import 'package:sigppang_e/presentation/util/activity_tracker.dart';
 
-sealed class LoginScreenAction with ScreenAction {}
+sealed class LoginScreenAction with ScreenAction {
+  factory LoginScreenAction.googleLogin() = GoogleLogin;
 
-final class GoogleLogin extends LoginScreenAction {}
+  factory LoginScreenAction.appleLogin() = AppleLogin;
 
-final class AppleLogin extends LoginScreenAction {}
+  factory LoginScreenAction.guestLogin() = GuestLogin;
+}
 
-final class GuestLogin extends LoginScreenAction {}
+final class GoogleLogin implements LoginScreenAction {}
+
+final class AppleLogin implements LoginScreenAction {}
+
+final class GuestLogin implements LoginScreenAction {}
 
 final class LoginViewModel extends ViewModel<LoginScreenAction> {
   final FirebaseGoogleLoginUseCase _googleLoginUseCase;

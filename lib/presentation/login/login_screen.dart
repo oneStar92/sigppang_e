@@ -15,10 +15,10 @@ final class LoginScreen extends BaseView<LoginViewModel> {
   });
 
   @override
-  LoginScreenState createState() => LoginScreenState();
+  BaseViewState<LoginViewModel, LoginScreen> createState() => _LoginScreenState();
 }
 
-final class LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen> {
+final class _LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen> {
   @override
   Widget createBody(BuildContext context) {
     return Column(
@@ -41,7 +41,7 @@ final class LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen> 
           SizedBox(
             height: size.height,
             child: SocialLoginButton(
-              onTap: () => viewModel.act(GoogleLogin()),
+              onTap: () => viewModel.act(LoginScreenAction.googleLogin()),
               socialLogin: SocialLogin.google,
             ),
           ),
@@ -50,7 +50,7 @@ final class LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen> 
               ? SizedBox(
                   height: size.height,
                   child: SocialLoginButton(
-                    onTap: () => viewModel.act(AppleLogin()),
+                    onTap: () => viewModel.act(LoginScreenAction.appleLogin()),
                     socialLogin: SocialLogin.apple,
                   ),
                 )

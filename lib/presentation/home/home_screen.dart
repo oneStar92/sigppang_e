@@ -13,10 +13,12 @@ final class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Padding(
-        padding: Sizes.defaultAppPadding,
-        child: _navigationShell,
-      )),
+      body: SafeArea(
+        child: Padding(
+          padding: Sizes.defaultAppPadding,
+          child: _navigationShell,
+        ),
+      ),
       bottomNavigationBar: SafeArea(
         child: Theme(
           data: ThemeData(
