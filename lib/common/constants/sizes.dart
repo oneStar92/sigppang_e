@@ -19,8 +19,8 @@ final class Sizes {
   static final dayOfWeekSize = Size(double.nan, 20.h);
   static final calendarRowSize = Size(double.nan, 70.h);
   static final toDoTitleSize = Size(double.infinity, 40.h);
-  static final toDoItemSize = Size(double.infinity, 35.h);
-  static final toDoItemLogoSize = Size(35.w, 35.h);
+  static final toDoItemSize = Size(double.infinity, 50.h);
+  static final toDoItemLogoSize = Size(50.w, 50.h);
   static final settingButtonSize = Size(double.infinity, 60.h);
 
   Sizes._();
