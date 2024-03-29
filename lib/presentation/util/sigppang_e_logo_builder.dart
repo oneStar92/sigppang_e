@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum ToDoState { ready, done, unfinished }
+import 'package:sigppang_e/domain/model/to_do.dart';
 
 final class SigppangELogoBuilder {
   static final _rawLogo = Image.asset('assets/icons/logo_w.png');
