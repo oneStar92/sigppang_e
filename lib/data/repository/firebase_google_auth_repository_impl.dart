@@ -16,7 +16,7 @@ final class FirebaseGoogleAuthRepositoryImpl implements AuthRepository {
 
       return FirebaseAuth.instance
           .signInWithCredential(credential)
-          .then((value) => value != null ? Future.value(null) : Future.error(Error()));
+          .then((value) => value.user != null ? Future.value(null) : Future.error(Error()));
     }
     return Future.error(Error());
   }

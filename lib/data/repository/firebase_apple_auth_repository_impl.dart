@@ -18,7 +18,7 @@ final class FirebaseAppleAuthRepositoryImpl implements AuthRepository {
 
     return FirebaseAuth.instance
         .signInWithCredential(credential)
-        .then((value) => value != null ? Future.value() : Future.error(Error()));
+        .then((value) => value.user != null ? Future.value() : Future.error(Error()));
   }
 
   @override
