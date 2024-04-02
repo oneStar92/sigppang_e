@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:sigppang_e/domain/model/to_do.dart';
 
 final class SigppangELogoBuilder {
-  static final _rawLogo = Image.asset('assets/icons/logo_w.png');
-  static final _logo = Image.asset('assets/icons/logo.png');
-  static final _burntLogo = Image.asset('assets/icons/logo_b.png');
+  static final _readyLogo = Image.asset('assets/icons/logo_w.png');
+  static final _doneLogo = Image.asset('assets/icons/logo.png');
+  static final _unfinishedLogo = Image.asset('assets/icons/logo_b.png');
 
   SigppangELogoBuilder._();
 
-  static Widget build({
-    required Size size,
-    ToDoState state = ToDoState.done,
-  }) {
-    final Image logo;
-    switch (state) {
-      case ToDoState.ready:
-        logo = _rawLogo;
-      case ToDoState.done:
-        logo = _logo;
-      case ToDoState.unfinished:
-        logo = _burntLogo;
-    }
+  static Widget buildReadyLogo({required Size size}) {
     return SizedBox(
       height: size.height,
       width: size.width,
-      child: FittedBox(child: logo),
+      child: FittedBox(child: _readyLogo),
+    );
+  }
+
+  static Widget buildDoneLogo({required Size size}) {
+    return SizedBox(
+      height: size.height,
+      width: size.width,
+      child: FittedBox(child: _doneLogo),
+    );
+  }
+
+  static Widget buildUnfinishedLogo({required Size size}) {
+    return SizedBox(
+      height: size.height,
+      width: size.width,
+      child: FittedBox(child: _unfinishedLogo),
     );
   }
 }

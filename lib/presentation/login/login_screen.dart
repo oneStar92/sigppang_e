@@ -24,7 +24,7 @@ final class _LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(child: SigppangELogoBuilder.build(size: Sizes.socialLoginLogoSize)),
+        Expanded(child: SigppangELogoBuilder.buildDoneLogo(size: Sizes.socialLoginLogoSize)),
         Expanded(child: _socialLoginButtons()),
       ],
     );
