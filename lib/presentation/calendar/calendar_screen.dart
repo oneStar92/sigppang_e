@@ -1,14 +1,13 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
+import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
-import 'package:sigppang_e/domain/model/to_do.dart';
-import 'package:sigppang_e/presentation/calendar/calednar_view_model.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar.dart';
+import 'package:sigppang_e/presentation/calendar/calendar_view_model.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
+import 'package:sigppang_e/presentation/util/sigppang_e_calendar_builders.dart';
 import 'package:sigppang_e/presentation/util/sigppang_e_logo_builder.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 final class CalendarScreen extends BaseView<CalendarViewModel> {
   const CalendarScreen({
@@ -61,7 +60,7 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
               stream: viewModel.isMonthFormat,
               builder: (_, snapshot) {
                 if (!snapshot.hasData) return const Icon(Icons.unfold_less);
-                return snapshot.requireData ? const Icon(Icons.unfold_less) : const Icon(Icons.unfold_more);
+                return snapshot.data ?? true ? const Icon(Icons.unfold_less) : const Icon(Icons.unfold_more);
               },
             ),
             padding: EdgeInsets.zero,
@@ -77,34 +76,20 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
     return StreamBuilder(
       stream: viewModel.calendar,
       builder: (context, snapshot) {
-        final defaultIcon = SigppangELogoBuilder.build(
-          size: Sizes.calendarDayLogoSize,
-          state: ToDoState.ready,
-        );
-        final doneIcon = SigppangELogoBuilder.build(size: Sizes.calendarDayLogoSize);
-        final unfinishedIcon = SigppangELogoBuilder.build(
-          size: Sizes.calendarDayLogoSize,
-          state: ToDoState.unfinished,
-        );
-
-        if (!snapshot.hasData) {
-          return SigppangECalendar(
-            events: LinkedHashMap(),
-            defaultIcon: defaultIcon,
-            doneIcon: doneIcon,
-            unfinishedIcon: unfinishedIcon,
-          );
-        }
-        return SigppangECalendar(
-          focusedDay: snapshot.requireData.focusedDay,
-          selectedDay: snapshot.requireData.selectedDay,
-          format: snapshot.requireData.format,
+        return TableCalendar(
+          locale: defaultLocale,
+          focusedDay: snapshot.data?.focusedDay ?? DateTime.now(),
+          calendarFormat: snapshot.data?.isMonthFormat ?? true ? CalendarFormat.month : CalendarFormat.week,
+          firstDay: DateTime(1970, 1, 1),
+          lastDay: DateTime(2099, 12, 31),
+          headerVisible: false,
+          daysOfWeekHeight: Sizes.dayOfWeekSize.height,
+          rowHeight: Sizes.calendarRowSize.height,
+          availableGestures: AvailableGestures.horizontalSwipe,
+          selectedDayPredicate: (day) => isSameDay(day, snapshot.data?.selectedDay ?? DateTime.now()),
+          calendarBuilders: SigppangECalendarBuilders(events: snapshot.data?.eventsMap ?? {}),
           onPageChanged: (date) => viewModel.act(CalendarScreenAction.onPageChanged(date)),
-          onDaySelected: (date) => viewModel.act(CalendarScreenAction.onDateSelected(date)),
-          events: snapshot.requireData.eventsMap,
-          defaultIcon: defaultIcon,
-          doneIcon: doneIcon,
-          unfinishedIcon: unfinishedIcon,
+          onDaySelected: (date, _) => viewModel.act(CalendarScreenAction.onDateSelected(date)),
         );
       },
     );
@@ -138,15 +123,14 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
         return ListView.separated(
           shrinkWrap: true,
           primary: false,
-          itemCount: snapshot.hasData ? snapshot.requireData.length : 0,
+          itemCount: snapshot.data?.length ?? 0,
           itemBuilder: (context, index) {
             if (!snapshot.hasData) return null;
             return ToDoItem(
-              controller: TextEditingController(text: snapshot.requireData[index].title),
-              checkBoxIcon: SigppangELogoBuilder.build(
-                size: Sizes.toDoItemLogoSize,
-                state: snapshot.requireData[index].toDoState,
-              ),
+              controller: TextEditingController(text: snapshot.data?[index].title),
+              checkBoxIcon: snapshot.data?[index].isDone ?? false
+                  ? SigppangELogoBuilder.buildDoneLogo(size: Sizes.toDoItemLogoSize)
+                  : SigppangELogoBuilder.buildReadyLogo(size: Sizes.toDoItemLogoSize),
               onChecked: () {},
               onSaved: () {},
               onDeleted: () {},
