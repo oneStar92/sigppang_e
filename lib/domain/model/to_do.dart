@@ -1,16 +1,9 @@
-import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_calendar.dart';
-
-enum ToDoState { ready, done, unfinished }
-
-final class ToDo implements CalendarEvent {
+final class ToDo {
   final String title;
-  final ToDoState toDoState;
+  final bool isDone;
 
   ToDo({
     required this.title,
-    this.toDoState = ToDoState.ready,
+    required this.isDone,
   });
-
-  @override
-  bool get isDone => toDoState == ToDoState.done;
 }
