@@ -1,11 +1,9 @@
-import 'dart:collection';
 import 'package:rxdart/rxdart.dart';
 import 'package:sigppang_e/domain/model/to_do.dart';
+import 'package:sigppang_e/domain/model/custom_date_time.dart';
 import 'package:sigppang_e/presentation/calendar/model/calendar.dart';
 import 'package:sigppang_e/presentation/common/screen_action.dart';
 import 'package:sigppang_e/presentation/common/view_model.dart';
-import 'package:sigppang_e/presentation/util/calendar_format+.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 sealed class CalendarScreenAction with ScreenAction {
   factory CalendarScreenAction.onPageChanged(DateTime data) = OnPageChanged;
@@ -54,36 +52,38 @@ final class DeleteToDo implements CalendarScreenAction {
 final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   final BehaviorSubject<DateTime> _focusedDay = BehaviorSubject.seeded(DateTime.now());
   final BehaviorSubject<DateTime> _selectedDay = BehaviorSubject.seeded(DateTime.now());
-  final BehaviorSubject<CalendarFormat> _format = BehaviorSubject.seeded(CalendarFormat.month);
-  final BehaviorSubject<LinkedHashMap<DateTime, List<ToDo>>> _toDoMap = BehaviorSubject.seeded(
-    LinkedHashMap(
-      equals: isSameDay,
-      hashCode: _makeHashCode,
-    )
-  );
+  final BehaviorSubject<bool> _isMonthFormat = BehaviorSubject.seeded(true);
+  final BehaviorSubject<Map<CustomDateTime, List<ToDo>>> _toDoMap = BehaviorSubject.seeded({});
 
   Stream<Calendar> get calendar => Rx.combineLatest4(
         _focusedDay,
         _selectedDay,
-        _format,
-        _toDoMap,
-        (focusedDay, selectedDay, format, toDoMap) => Calendar(
+    _isMonthFormat,
+        _toDoMap.map(
+          (event) => event.map(
+            (key, value) => MapEntry(
+              key,
+              value.where((element) => element.isDone).length / value.length,
+            ),
+          ),
+        ),
+        (focusedDay, selectedDay, isMonthFormat, toDoMap) => Calendar(
           focusedDay: focusedDay,
           selectedDay: selectedDay,
-          format: format,
+          isMonthFormat: isMonthFormat,
           eventsMap: toDoMap,
         ),
       );
 
   Stream<String> get title => _focusedDay.map((event) => '${event.year}년 ${event.month}월');
 
-  Stream<bool> get isMonthFormat => _format.map((event) => event == CalendarFormat.month);
+  Stream<bool> get isMonthFormat => _isMonthFormat;
 
   Stream<List<ToDo>> get toDoList => Rx.combineLatest2(
         _selectedDay,
         _toDoMap,
-        (selectedDate, LinkedHashMap<DateTime, List<ToDo>> toDoMap) {
-          return toDoMap[selectedDate] ?? [];
+        (selectedDate, Map<CustomDateTime, List<ToDo>> toDoMap) {
+          return toDoMap[CustomDateTime.from(selectedDate)] ?? [];
         },
       );
 
@@ -102,15 +102,15 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
             _selectedDay.add(event.data);
             break;
           case ChangeFormat():
-            _format.add(_format.value.swap());
+            _isMonthFormat.add(_isMonthFormat.value ? false : true);
             break;
           case AddToDo():
             _toDoMap.add(
               _toDoMap.value
                 ..update(
-                  _selectedDay.value,
-                  (events) => events..add(ToDo(title: '')),
-                  ifAbsent: () => [ToDo(title: '')],
+                  CustomDateTime.from(_selectedDay.value),
+                  (events) => events..add(ToDo(title: '', isDone: false)),
+                  ifAbsent: () => [ToDo(title: '', isDone: false)],
                 ),
             );
             break;
@@ -120,7 +120,7 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
             _toDoMap.add(
               _toDoMap.value
                 ..update(
-                  _selectedDay.value,
+                   CustomDateTime.from(_selectedDay.value),
                   (events) => events..removeAt(event.data),
                 ),
             );
@@ -134,12 +134,8 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   dispose() {
     super.dispose();
 
-    _format.close();
+    _isMonthFormat.close();
     _selectedDay.close();
     _focusedDay.close();
-  }
-
-  static int _makeHashCode(DateTime key) {
-    return key.day * 1000000 + key.month * 10000 + key.year;
   }
 }
