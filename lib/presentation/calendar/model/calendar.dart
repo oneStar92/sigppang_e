@@ -1,18 +1,15 @@
-import 'dart:collection';
-
-import 'package:sigppang_e/domain/model/to_do.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:sigppang_e/domain/model/custom_date_time.dart';
 
 final class Calendar {
   final DateTime focusedDay;
   final DateTime selectedDay;
-  final CalendarFormat format;
-  final LinkedHashMap<DateTime, List<ToDo>> eventsMap;
+  final bool isMonthFormat;
+  final Map<CustomDateTime, double> eventsMap;
 
   Calendar({
     required this.focusedDay,
     required this.selectedDay,
-    required this.format,
+    required this.isMonthFormat,
     required this.eventsMap,
   });
 }
