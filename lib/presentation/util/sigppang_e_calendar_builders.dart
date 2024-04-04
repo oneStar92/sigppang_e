@@ -1,19 +1,12 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
-import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
-import 'package:sigppang_e/domain/model/custom_date_time.dart';
-import 'package:sigppang_e/presentation/util/date_time+.dart';
-import 'package:sigppang_e/presentation/util/sigppang_e_logo_builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-final _readyLogo = SigppangELogoBuilder.buildReadyLogo(size: Sizes.calendarDayLogoSize);
-final _doneLogo = SigppangELogoBuilder.buildDoneLogo(size: Sizes.calendarDayLogoSize);
-final _unfinishedLogo = SigppangELogoBuilder.buildUnfinishedLogo(size: Sizes.calendarDayLogoSize);
-
 final class SigppangECalendarBuilders extends CalendarBuilders {
-  final Map<CustomDateTime, double> _events;
+  final double _defaultOpacity = 0.4;
+  final Widget Function(DateTime dateTime) _buildDayLogo;
 
   @override
   DayBuilder? get dowBuilder => (BuildContext context, DateTime day) {
@@ -34,57 +27,65 @@ final class SigppangECalendarBuilders extends CalendarBuilders {
 
   @override
   FocusedDayBuilder? get selectedBuilder => (BuildContext context, DateTime day, DateTime focusedDay) {
-    final logo = _buildIcon(day);
+    final logo = _buildDayLogo(day);
     final selectedDay = day.day.toString();
+    final opacity = focusedDay.month == day.month ? 1.0 : _defaultOpacity;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        logo,
-        Expanded(
-          child: Container(
-            decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
-            child: Center(
-              child: Text(
-                selectedDay,
-                textAlign: TextAlign.center,
-                style: TextStyles.selectedDayTextStyle,
+    return Opacity(
+      opacity: opacity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          logo,
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+              child: Center(
+                child: Text(
+                  selectedDay,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.selectedDayTextStyle,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   };
 
   @override
   FocusedDayBuilder? get todayBuilder => (BuildContext context, DateTime day, DateTime focusedDay) {
-    final logo = _buildIcon(day);
+    final logo = _buildDayLogo(day);
     final today = day.day.toString();
+    final opacity = focusedDay.month == day.month ? 1.0 : _defaultOpacity;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        logo,
-        Expanded(
-          child: Container(
-            decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-            child: Center(
-              child: Text(
-                today,
-                textAlign: TextAlign.center,
-                style: TextStyles.nowTextStyle,
+    return Opacity(
+      opacity: opacity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          logo,
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+              child: Center(
+                child: Text(
+                  today,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.nowTextStyle,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   };
 
   @override
   FocusedDayBuilder? get defaultBuilder => (BuildContext context, DateTime day, DateTime focusedDay) {
-    final logo = _buildIcon(day);
+    final logo = _buildDayLogo(day);
     final defaultDay = day.day.toString();
 
     return Column(
@@ -104,11 +105,11 @@ final class SigppangECalendarBuilders extends CalendarBuilders {
 
   @override
   FocusedDayBuilder? get outsideBuilder => (BuildContext context, DateTime day, DateTime focusedDay) {
-    final logo = _buildIcon(day);
+    final logo = _buildDayLogo(day);
     final outsideDay = day.day.toString();
 
     return Opacity(
-      opacity: 0.4,
+      opacity: _defaultOpacity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -124,26 +125,6 @@ final class SigppangECalendarBuilders extends CalendarBuilders {
       ),
     );
   };
-
-  Widget _buildIcon(DateTime day) {
-    final progressOfDayWork = _events[CustomDateTime.from(day)];
-    if (progressOfDayWork != null) {
-      if (progressOfDayWork < 1.0 && day.isBeforeToNow()) return _unfinishedLogo;
-      if (progressOfDayWork == 1.0) return _doneLogo;
-      return ShaderMask(
-        shaderCallback: (rect) => LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: const [Colors.white, Colors.transparent],
-          stops: [progressOfDayWork , 1.0],
-        ).createShader(rect),
-        blendMode: BlendMode.softLight,
-        child: _doneLogo,
-      );
-    } else {
-      return _readyLogo;
-    }
-  }
 
   SigppangECalendarBuilders({
     super.prioritizedBuilder,
@@ -162,6 +143,6 @@ final class SigppangECalendarBuilders extends CalendarBuilders {
     super.dowBuilder,
     super.headerTitleBuilder,
     super.weekNumberBuilder,
-    required Map<CustomDateTime, double> events,
-  }) : _events = events;
+    required Widget Function(DateTime dateTime) buildDayLogo,
+  }) : _buildDayLogo = buildDayLogo;
 }
