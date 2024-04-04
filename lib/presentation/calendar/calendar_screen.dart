@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
+import 'package:sigppang_e/domain/model/custom_date_time.dart';
+import 'package:sigppang_e/domain/model/daily_status.dart';
 import 'package:sigppang_e/presentation/calendar/calendar_view_model.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
@@ -74,20 +76,27 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
 
   Widget _buildCalendar() {
     return StreamBuilder(
-      stream: viewModel.calendar,
+      stream: viewModel.calendarItem,
       builder: (context, snapshot) {
         return TableCalendar(
           locale: defaultLocale,
-          focusedDay: snapshot.data?.focusedDay ?? DateTime.now(),
-          calendarFormat: snapshot.data?.isMonthFormat ?? true ? CalendarFormat.month : CalendarFormat.week,
+          focusedDay: snapshot.data?.calendarState.focusedDay ?? DateTime.now(),
+          calendarFormat:
+              snapshot.data?.calendarState.isMonthFormat ?? true ? CalendarFormat.month : CalendarFormat.week,
           firstDay: DateTime(1970, 1, 1),
           lastDay: DateTime(2099, 12, 31),
           headerVisible: false,
           daysOfWeekHeight: Sizes.dayOfWeekSize.height,
           rowHeight: Sizes.calendarRowSize.height,
           availableGestures: AvailableGestures.horizontalSwipe,
-          selectedDayPredicate: (day) => isSameDay(day, snapshot.data?.selectedDay ?? DateTime.now()),
-          calendarBuilders: SigppangECalendarBuilders(events: snapshot.data?.eventsMap ?? {}),
+          selectedDayPredicate: (day) => isSameDay(day, snapshot.data?.calendarState.selectedDay ?? DateTime.now()),
+          calendarBuilders: SigppangECalendarBuilders(
+            buildDayLogo: (day) {
+              return SigppangELogoBuilder.buildCalendarDayLogo(
+                status: snapshot.data?.statusByDate[CustomDateTime.from(day)],
+              );
+            },
+          ),
           onPageChanged: (date) => viewModel.act(CalendarScreenAction.onPageChanged(date)),
           onDaySelected: (date, _) => viewModel.act(CalendarScreenAction.onDateSelected(date)),
         );
@@ -118,7 +127,7 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
 
   Widget _buildToDoList() {
     return StreamBuilder(
-      stream: viewModel.toDoList,
+      stream: viewModel.selectedToDoList,
       builder: (context, snapshot) {
         return ListView.separated(
           shrinkWrap: true,
