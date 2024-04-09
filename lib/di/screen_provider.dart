@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sigppang_e/data/repository/firebase_apple_auth_repository_impl.dart';
-import 'package:sigppang_e/data/repository/firebase_google_auth_repository_impl.dart';
+import 'package:sigppang_e/data/repository/firebase_auth_repository_impl.dart';
 import 'package:sigppang_e/data/repository/firebase_to_do_repository_impl.dart';
 import 'package:sigppang_e/domain/model/to_do.dart';
 import 'package:sigppang_e/domain/use_case/firebase_apple_login_use_case.dart';
@@ -23,10 +22,9 @@ final class ScreenProvider {
   ScreenProvider._internal();
 
   static LoginScreen buildLoginScreen() {
-    final googleAuthRepository = FirebaseGoogleAuthRepositoryImpl();
-    final appleAuthRepository = FirebaseAppleAuthRepositoryImpl();
-    final googleLoginUseCase = FirebaseGoogleLoginUseCase(firebaseGoogleAuthRepository: googleAuthRepository);
-    final appleLoginUseCase = FirebaseAppleLoginUseCase(firebaseAppleAuthRepository: appleAuthRepository);
+    final authRepository = FirebaseAuthRepositoryImpl.instance;
+    final googleLoginUseCase = FirebaseGoogleLoginUseCase(authRepository: authRepository);
+    final appleLoginUseCase = FirebaseAppleLoginUseCase(authRepository: authRepository);
     final viewModel = LoginViewModel(
       googleLoginUseCase: googleLoginUseCase,
       appleLoginUseCase: appleLoginUseCase,
