@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
+import 'package:sigppang_e/di/screen_provider.dart';
 import 'package:sigppang_e/domain/model/custom_date_time.dart';
 import 'package:sigppang_e/domain/model/daily_status.dart';
 import 'package:sigppang_e/presentation/calendar/calendar_view_model.dart';
@@ -129,20 +130,16 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
     return StreamBuilder(
       stream: viewModel.selectedToDoList,
       builder: (context, snapshot) {
+        if (!snapshot.hasData) return Container();
         return ListView.separated(
           shrinkWrap: true,
           primary: false,
-          itemCount: snapshot.data?.length ?? 0,
+          itemCount: snapshot.requireData.length,
           itemBuilder: (context, index) {
-            if (!snapshot.hasData) return null;
-            return ToDoItem(
-              controller: TextEditingController(text: snapshot.data?[index].title),
-              checkBoxIcon: snapshot.data?[index].isDone ?? false
-                  ? SigppangELogoBuilder.buildDoneLogo(size: Sizes.toDoItemLogoSize)
-                  : SigppangELogoBuilder.buildReadyLogo(size: Sizes.toDoItemLogoSize),
-              onChecked: () {},
-              onSaved: () {},
-              onDeleted: () {},
+            final toDo = snapshot.requireData[index];
+            return ScreenProvider.buildToDoItem(
+              toDo,
+              deletedOnMemory: (toDo) => viewModel.act(CalendarScreenAction.delete(toDo)),
             );
           },
           separatorBuilder: (context, index) {
