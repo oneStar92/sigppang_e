@@ -5,4 +5,5 @@ abstract interface class ToDoRepository {
   Future<void> create(ToDo toDo);
   Future<void> update(ToDo toDo);
   Future<void> delete(ToDo toDo);
+  Future<void> deleteAll();
 }
