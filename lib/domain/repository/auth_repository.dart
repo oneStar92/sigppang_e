@@ -1,5 +1,7 @@
 abstract interface class AuthRepository {
-  Future<void> login();
+  Future<void> googleLogin();
+
+  Future<void> appleLogin();
 
   Future<void> logout();
 
