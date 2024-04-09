@@ -21,12 +21,12 @@ final class SigppangELogoBuilder {
       case InProgress():
         return ShaderMask(
           shaderCallback: (rect) => LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: const [Colors.white, Colors.transparent],
-            stops: [status.progress, 1.0],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [Colors.transparent, Colors.white.withOpacity(0.75)],
+            stops: [0, status.progress],
           ).createShader(rect),
-          blendMode: BlendMode.softLight,
+          blendMode: BlendMode.lighten,
           child: SizedBox(
             height: size.height,
             width: size.width,
