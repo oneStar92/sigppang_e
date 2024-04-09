@@ -37,4 +37,18 @@ final class FirebaseToDoRepositoryImpl implements ToDoRepository {
   Future<void> delete(ToDo toDo) {
     return FirebaseFirestore.instance.collection(userId).doc(toDo.id).delete();
   }
+
+  @override
+  Future<void> deleteAll() async {
+    final batch = FirebaseFirestore.instance.batch();
+
+    return FirebaseFirestore.instance.collection(userId).get().then(
+      (querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          batch.delete(doc.reference);
+        }
+        batch.commit();
+      },
+    );
+  }
 }
