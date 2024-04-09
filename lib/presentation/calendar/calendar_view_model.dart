@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sigppang_e/domain/model/to_do.dart';
 import 'package:sigppang_e/domain/model/custom_date_time.dart';
@@ -17,9 +18,7 @@ sealed class CalendarScreenAction with ScreenAction {
 
   factory CalendarScreenAction.addToDo() = AddToDo;
 
-  factory CalendarScreenAction.updateToDo(int index, String title, bool isDone) = UpdateToDo;
-
-  factory CalendarScreenAction.deleteToDo(int data) = DeleteToDo;
+  factory CalendarScreenAction.delete(ToDo toDo) = Delete;
 }
 
 final class OnPageChanged implements CalendarScreenAction {
@@ -38,18 +37,10 @@ final class ChangeFormat implements CalendarScreenAction {}
 
 final class AddToDo implements CalendarScreenAction {}
 
-final class UpdateToDo implements CalendarScreenAction {
-  final int index;
-  final String title;
-  final bool isDone;
+final class Delete implements CalendarScreenAction {
+  final ToDo toDo;
 
-  UpdateToDo(this.index, this.title, this.isDone);
-}
-
-final class DeleteToDo implements CalendarScreenAction {
-  final int data;
-
-  DeleteToDo(this.data);
+  Delete(this.toDo);
 }
 
 typedef ToDoListByDate = Map<CustomDateTime, List<ToDo>>;
@@ -59,7 +50,21 @@ typedef CalendarItem = ({CalendarState calendarState, StatusByDate statusByDate}
 final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   final FirebaseToDoReadUseCase _readUseCase;
   final BehaviorSubject<CalendarState> _calendarState;
-  final BehaviorSubject<ToDoListByDate> _toDoListByDate;
+  final BehaviorSubject<List<ToDo>> _toDoList;
+
+  Stream<ToDoListByDate> get _toDoListByDate => _toDoList.map(
+        (toDoList) {
+          return toDoList.fold(
+            <CustomDateTime, List<ToDo>>{},
+            (previousValue, element) => previousValue
+              ..update(
+                CustomDateTime.from(element.createdAt),
+                (value) => value..add(element),
+                ifAbsent: () => [element],
+              ),
+          );
+        },
+      );
 
   Stream<Map<CustomDateTime, DailyStatus>> get _statusByDate => _toDoListByDate.map(
         (toDoListByDate) {
@@ -88,13 +93,14 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   Stream<List<ToDo>> get selectedToDoList => Rx.combineLatest2(
         _calendarState.map((state) => state.selectedDay),
         _toDoListByDate,
-        (selectedDate, Map<CustomDateTime, List<ToDo>> toDoMap) => toDoMap[CustomDateTime.from(selectedDate)] ?? [],
+        (selectedDate, Map<CustomDateTime, List<ToDo>> toDoMap) =>
+            toDoMap[CustomDateTime.from(selectedDate)]?.sorted((a, b) => a.createdAt.compareTo(b.createdAt)) ?? [],
       );
 
   @override
   initState() {
     super.initState();
-    _readUseCase.execute(query: null).listen(_toDoListByDate.add);
+    _readUseCase.execute(query: null).listen(_toDoList.add);
     actionStream.listen(
       (event) {
         switch (event) {
@@ -112,11 +118,10 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
             );
             break;
           case AddToDo():
+            _toDoList.add(_toDoList.value..add(ToDo.empty(_calendarState.value.selectedDay)));
             break;
-          case UpdateToDo():
-            break;
-          case DeleteToDo():
-            break;
+          case Delete():
+            _toDoList.add(_toDoList.value..remove(event.toDo));
         }
       },
     );
@@ -126,12 +131,12 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   dispose() {
     super.dispose();
     _calendarState.close();
-    _toDoListByDate.close();
+    _toDoList.close();
   }
 
   CalendarViewModel({
     required FirebaseToDoReadUseCase readUseCase,
   })  : _readUseCase = readUseCase,
-        _calendarState = BehaviorSubject.seeded(CalendarState.init()),
-        _toDoListByDate = BehaviorSubject.seeded({});
+        _toDoList = BehaviorSubject.seeded([]),
+        _calendarState = BehaviorSubject.seeded(CalendarState.init());
 }
