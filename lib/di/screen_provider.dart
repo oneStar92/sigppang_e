@@ -5,6 +5,8 @@ import 'package:sigppang_e/data/repository/firebase_to_do_repository_impl.dart';
 import 'package:sigppang_e/domain/model/to_do.dart';
 import 'package:sigppang_e/domain/use_case/firebase_apple_login_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_google_login_use_case.dart';
+import 'package:sigppang_e/domain/use_case/firebase_logout_use_case.dart';
+import 'package:sigppang_e/domain/use_case/firebase_sign_out_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_create_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_delete_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_read_use_case.dart';
@@ -16,7 +18,8 @@ import 'package:sigppang_e/presentation/calendar/widgets/to_do_item_view_model.d
 import 'package:sigppang_e/presentation/home/home_screen.dart';
 import 'package:sigppang_e/presentation/login/login_screen.dart';
 import 'package:sigppang_e/presentation/login/login_view_model.dart';
-import 'package:sigppang_e/presentation/setting/setting_screen.dart';
+import 'package:sigppang_e/presentation/etc/etc_view_model.dart';
+import 'package:sigppang_e/presentation/etc/etc_screen.dart';
 
 final class ScreenProvider {
   ScreenProvider._internal();
@@ -44,8 +47,13 @@ final class ScreenProvider {
     );
   }
 
-  static SettingScreen buildSettingScreen() {
-    return SettingScreen();
+  static ETCScreen buildETCScreen() {
+    final authRepository = FirebaseAuthRepositoryImpl.instance;
+    final toDoRepository = FirebaseToDoRepositoryImpl.instance;
+    final logoutUseCase = FirebaseLogoutUseCase(repository: authRepository);
+    final signOutUseCase = FirebaseSignOutUseCase(authRepository: authRepository, toDoRepository: toDoRepository);
+    final viewModel = ETCViewModel(logoutUseCase: logoutUseCase, signOutUseCase: signOutUseCase);
+    return ETCScreen(viewModel: viewModel);
   }
 
   static ToDoItem buildToDoItem(ToDo toDo, {required Function(ToDo toDo) deletedOnMemory}) {

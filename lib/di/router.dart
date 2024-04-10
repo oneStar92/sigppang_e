@@ -27,7 +27,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: settingScreenPath,
-              builder: (context, state) => ScreenProvider.buildSettingScreen(),
+              builder: (context, state) => ScreenProvider.buildETCScreen(),
             ),
           ],
         ),
