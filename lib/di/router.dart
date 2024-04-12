@@ -3,9 +3,9 @@ import 'package:sigppang_e/di/screen_provider.dart';
 import 'package:sigppang_e/presentation/util/auth_notifier.dart';
 
 const loginScreenPath = '/login';
-const homeScreenPath = '/home';
 const calendarScreenPath = '/calendar';
 const settingScreenPath = '/setting';
+const homeScreenPath = calendarScreenPath;
 const initialLocation = loginScreenPath;
 
 final router = GoRouter(
@@ -36,14 +36,13 @@ final router = GoRouter(
   ],
   refreshListenable: AuthNotifier.instance,
   redirect: (context, state) {
-    final currentUser = AuthNotifier.instance.currentUser;
     final currentPath = state.fullPath;
-    if (currentUser != null) {
-      if (currentPath == loginScreenPath) {
-        return calendarScreenPath;
-      } else {
-        return currentPath;
-      }
+    final account = AuthNotifier.instance.account;
+
+    if (account != null && currentPath == loginScreenPath) {
+      return calendarScreenPath;
+    } else if (account != null && currentPath != loginScreenPath) {
+      return currentPath;
     } else {
       return loginScreenPath;
     }
