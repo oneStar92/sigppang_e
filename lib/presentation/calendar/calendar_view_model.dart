@@ -8,49 +8,11 @@ import 'package:sigppang_e/domain/model/custom_date_time.dart';
 import 'package:sigppang_e/domain/model/daily_status.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_read_use_case.dart';
 import 'package:sigppang_e/domain/use_case/guest_logout_use_case.dart';
-import 'package:sigppang_e/presentation/calendar/model/calendar_state.dart';
-import 'package:sigppang_e/presentation/common/screen_action.dart';
+import 'package:sigppang_e/presentation/calendar/action/calendar_action.dart';
+import 'package:sigppang_e/presentation/calendar/state/calendar_state.dart';
 import 'package:sigppang_e/presentation/common/view_model.dart';
 import 'package:sigppang_e/presentation/util/auth_notifier.dart';
 import 'package:sigppang_e/presentation/util/date_time+.dart';
-
-sealed class CalendarScreenAction with ScreenAction {
-  factory CalendarScreenAction.onPageChanged(DateTime data) = OnPageChanged;
-
-  factory CalendarScreenAction.onDateSelected(DateTime data) = OnDateSelected;
-
-  factory CalendarScreenAction.changeFormat() = ChangeFormat;
-
-  factory CalendarScreenAction.addToDo() = AddToDo;
-
-  factory CalendarScreenAction.delete(ToDo toDo) = Delete;
-
-  factory CalendarScreenAction.guestLogout() = SignIn;
-}
-
-final class OnPageChanged implements CalendarScreenAction {
-  final DateTime data;
-
-  OnPageChanged(this.data);
-}
-
-final class OnDateSelected implements CalendarScreenAction {
-  final DateTime data;
-
-  OnDateSelected(this.data);
-}
-
-final class ChangeFormat implements CalendarScreenAction {}
-
-final class AddToDo implements CalendarScreenAction {}
-
-final class Delete implements CalendarScreenAction {
-  final ToDo toDo;
-
-  Delete(this.toDo);
-}
-
-final class SignIn implements CalendarScreenAction {}
 
 typedef ToDoListByDate = Map<CustomDateTime, List<ToDo>>;
 typedef StatusByDate = Map<CustomDateTime, DailyStatus>;
@@ -62,6 +24,14 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   final BehaviorSubject<CalendarState> _calendarState;
   final BehaviorSubject<List<ToDo>> _toDoList;
   final StreamController<Error> _errorController = StreamController.broadcast();
+
+  CalendarViewModel({
+    required FirebaseToDoReadUseCase readUseCase,
+    required GuestLogoutUseCase guestLogoutUseCase,
+  })  : _readUseCase = readUseCase,
+        _guestLogoutUseCase = guestLogoutUseCase,
+        _toDoList = BehaviorSubject.seeded([]),
+        _calendarState = BehaviorSubject.seeded(CalendarState.init());
 
   @override
   Stream<bool> get isLoadingStream => Stream.value(true);
@@ -163,12 +133,4 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
     _toDoList.close();
     _errorController.close();
   }
-
-  CalendarViewModel({
-    required FirebaseToDoReadUseCase readUseCase,
-    required GuestLogoutUseCase guestLogoutUseCase,
-  })  : _readUseCase = readUseCase,
-        _guestLogoutUseCase = guestLogoutUseCase,
-        _toDoList = BehaviorSubject.seeded([]),
-        _calendarState = BehaviorSubject.seeded(CalendarState.init());
 }

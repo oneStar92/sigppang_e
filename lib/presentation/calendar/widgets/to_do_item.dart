@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
+import 'package:sigppang_e/presentation/calendar/action/to_do_action.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/sigppang_e_checkbox.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item_view_model.dart';
 
@@ -16,7 +17,8 @@ final class ToDoItem extends StatelessWidget {
     required ToDoItemViewModel viewModel,
     required FocusNode focusNode,
   })  : _viewModel = viewModel,
-        _controller = TextEditingController(text: viewModel.title), _focusNode = focusNode;
+        _controller = TextEditingController(text: viewModel.title),
+        _focusNode = focusNode;
 
   @override
   Widget build(BuildContext context) {

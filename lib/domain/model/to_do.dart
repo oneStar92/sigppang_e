@@ -18,5 +18,5 @@ class ToDo with _$ToDo {
 
   factory ToDo.empty(DateTime date) => ToDo(title: '', isDone: false, createdAt: date);
 
-  factory ToDo.fromJson(Map<String, Object?> json) => _$ToDoFromJson(json); 
+  factory ToDo.fromJson(Map<String, Object?> json) => _$ToDoFromJson(json);
 }

@@ -3,6 +3,7 @@ import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
 import 'package:sigppang_e/presentation/common/custom_alert_dialog.dart';
+import 'package:sigppang_e/presentation/etc/etc_action.dart';
 import 'package:sigppang_e/presentation/etc/etc_view_model.dart';
 import 'package:sigppang_e/presentation/etc/widgets/icon_text_button.dart';
 

@@ -7,7 +7,7 @@ final class SigppangECheckbox extends TappableWidget {
   final bool _isChecked;
   final _checkedIcon = SigppangELogoBuilder.buildDoneLogo(size: Sizes.toDoItemLogoSize);
   final _unCheckedIcon = SigppangELogoBuilder.buildReadyLogo(size: Sizes.toDoItemLogoSize);
-  
+
   SigppangECheckbox({
     super.key,
     required super.onTap,

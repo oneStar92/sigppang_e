@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:sigppang_e/domain/model/account.dart';
 import 'package:sigppang_e/domain/repository/auth_repository.dart';
-import 'package:sigppang_e/presentation/util/auth_notifier.dart';
 
 final class FirebaseAuthRepositoryImpl implements AuthRepository {
   static final FirebaseAuthRepositoryImpl instance = FirebaseAuthRepositoryImpl._internal();
@@ -23,9 +21,7 @@ final class FirebaseAuthRepositoryImpl implements AuthRepository {
         accessToken: authentication.accessToken,
       );
 
-      return FirebaseAuth.instance
-          .signInWithCredential(credential)
-          .then((value) => Future.value);
+      return FirebaseAuth.instance.signInWithCredential(credential).then((value) => Future.value);
     }
     return Future.error(Error());
   }
@@ -43,9 +39,7 @@ final class FirebaseAuthRepositoryImpl implements AuthRepository {
       accessToken: appleCredential.authorizationCode,
     );
 
-    return FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((value) => Future.value);
+    return FirebaseAuth.instance.signInWithCredential(credential).then((value) => Future.value);
   }
 
   @override
