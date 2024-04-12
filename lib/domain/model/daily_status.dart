@@ -1,7 +1,10 @@
 sealed class DailyStatus {
   factory DailyStatus.ready() = Ready;
+
   factory DailyStatus.inProgress(double progress) = InProgress;
+
   factory DailyStatus.done() = Done;
+
   factory DailyStatus.unfinished() = Unfinished;
 }
 

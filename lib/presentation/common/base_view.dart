@@ -50,7 +50,9 @@ abstract class BaseViewState<T extends ViewModel, U extends BaseView<T>> extends
                         ),
                       ),
                       Center(
-                        child: CircularProgressIndicator(color: Colors.grey,),
+                        child: CircularProgressIndicator(
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
