@@ -3,10 +3,10 @@ import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/di/screen_provider.dart';
+import 'package:sigppang_e/domain/error/not_logged_in.dart';
 import 'package:sigppang_e/domain/model/custom_date_time.dart';
-import 'package:sigppang_e/domain/model/daily_status.dart';
 import 'package:sigppang_e/presentation/calendar/calendar_view_model.dart';
-import 'package:sigppang_e/presentation/calendar/widgets/to_do_item.dart';
+import 'package:sigppang_e/presentation/common/custom_alert_dialog.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
 import 'package:sigppang_e/presentation/util/sigppang_e_calendar_builders.dart';
 import 'package:sigppang_e/presentation/util/sigppang_e_logo_builder.dart';
@@ -23,6 +23,16 @@ final class CalendarScreen extends BaseView<CalendarViewModel> {
 }
 
 final class _CalendarScreenState extends BaseViewState<CalendarViewModel, CalendarScreen> {
+  @override
+  void initState() {
+    super.initState();
+    viewModel.onError.listen((event) {
+      if (event is NotLoggedIn) {
+        _showSignInDialog(context);
+      }
+    });
+  }
+
   @override
   Widget createBody(BuildContext context) {
     return SingleChildScrollView(
@@ -150,6 +160,19 @@ final class _CalendarScreenState extends BaseViewState<CalendarViewModel, Calend
           },
         );
       },
+    );
+  }
+
+  _showSignInDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => CustomAlertDialog(
+        title: '로그인이 필요합니다',
+        content: '회원만 이용 가능한 서비스입니다.',
+        okTitle: '로그인',
+        okTextColor: Colors.indigoAccent,
+        okAction: () => viewModel.act(CalendarScreenAction.guestLogout()),
+      ),
     );
   }
 }
