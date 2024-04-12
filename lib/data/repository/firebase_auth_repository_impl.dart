@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:sigppang_e/domain/model/account.dart';
 import 'package:sigppang_e/domain/repository/auth_repository.dart';
 import 'package:sigppang_e/presentation/util/auth_notifier.dart';
 
@@ -24,7 +25,7 @@ final class FirebaseAuthRepositoryImpl implements AuthRepository {
 
       return FirebaseAuth.instance
           .signInWithCredential(credential)
-          .then((value) => value.user != null ? Future.value(null) : Future.error(Error()));
+          .then((value) => Future.value);
     }
     return Future.error(Error());
   }
@@ -44,7 +45,7 @@ final class FirebaseAuthRepositoryImpl implements AuthRepository {
 
     return FirebaseAuth.instance
         .signInWithCredential(credential)
-        .then((value) => value.user != null ? Future.value() : Future.error(Error()));
+        .then((value) => Future.value);
   }
 
   @override
@@ -54,6 +55,6 @@ final class FirebaseAuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    return AuthNotifier.instance.currentUser?.delete();
+    return FirebaseAuth.instance.currentUser?.delete();
   }
 }
