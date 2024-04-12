@@ -11,44 +11,65 @@ final class FirebaseToDoRepositoryImpl implements ToDoRepository {
 
   FirebaseToDoRepositoryImpl._internal();
 
-  final _user = AuthNotifier.instance.currentUser;
-
-  String get userId => _user != null ? _user.uid : throw Error();
-
   @override
   Stream<List<ToDo>> readAll() {
-    return FirebaseFirestore.instance
-        .collection(userId)
-        .snapshots()
-        .map((collection) => collection.docs.map((doc) => ToDoMapper.fromDocument(doc.data(), doc.id)).toList());
+    final uid = AuthNotifier.instance.account?.uid;
+    if (uid != null) {
+      return FirebaseFirestore.instance
+          .collection(uid)
+          .snapshots()
+          .map((collection) => collection.docs.map((doc) => ToDoMapper.fromDocument(doc.data(), doc.id)).toList());
+    } else {
+      return Stream.value([]);
+    }
   }
 
   @override
   Future<void> create(ToDo toDo) {
-    return FirebaseFirestore.instance.collection(userId).doc().set(ToDoMapper.toDocument(toDo));
+    final uid = AuthNotifier.instance.account?.uid;
+    if (uid != null) {
+      return FirebaseFirestore.instance.collection(uid).doc().set(ToDoMapper.toDocument(toDo));
+    } else {
+      return Future.error(Error());
+    }
   }
 
   @override
   Future<void> update(ToDo toDo) {
-    return FirebaseFirestore.instance.collection(userId).doc(toDo.id).update(ToDoMapper.toDocument(toDo));
+    final uid = AuthNotifier.instance.account?.uid;
+    if (uid != null) {
+      return FirebaseFirestore.instance.collection(uid).doc(toDo.id).update(ToDoMapper.toDocument(toDo));
+    } else {
+      return Future.error(Error());
+    }
   }
 
   @override
   Future<void> delete(ToDo toDo) {
-    return FirebaseFirestore.instance.collection(userId).doc(toDo.id).delete();
+    final uid = AuthNotifier.instance.account?.uid;
+    if (uid != null) {
+      return FirebaseFirestore.instance.collection(uid).doc(toDo.id).delete();
+    } else {
+      return Future.error(Error());
+    }
   }
 
   @override
   Future<void> deleteAll() async {
-    final batch = FirebaseFirestore.instance.batch();
+    final uid = AuthNotifier.instance.account?.uid;
+    if (uid != null) {
+      final batch = FirebaseFirestore.instance.batch();
 
-    return FirebaseFirestore.instance.collection(userId).get().then(
-      (querySnapshot) {
-        for (var doc in querySnapshot.docs) {
-          batch.delete(doc.reference);
-        }
-        batch.commit();
-      },
-    );
+      return FirebaseFirestore.instance.collection(uid).get().then(
+        (querySnapshot) {
+          for (var doc in querySnapshot.docs) {
+            batch.delete(doc.reference);
+          }
+          batch.commit();
+        },
+      );
+    } else {
+      return Future.error(Error());
+    }
   }
 }
