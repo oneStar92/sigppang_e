@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:go_router/go_router.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
+import 'package:sigppang_e/di/router.dart';
 import 'package:sigppang_e/presentation/common/base_view.dart';
 import 'package:sigppang_e/presentation/util/sigppang_e_logo_builder.dart';
 import 'package:sigppang_e/presentation/login/login_view_model.dart';
@@ -24,39 +26,28 @@ final class _LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(child: SigppangELogoBuilder.buildDoneLogo(size: Sizes.socialLoginLogoSize)),
+        Expanded(child: SigppangELogoBuilder.buildDoneLogo(size: Sizes.loginLogoSize)),
         Expanded(child: _socialLoginButtons()),
       ],
     );
   }
 
   Widget _socialLoginButtons() {
-    final size = Sizes.socialLoginButtonSize;
     final isiOS = foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS;
     return Padding(
       padding: Sizes.defaultHorizontalPadding * 2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            height: size.height,
-            child: SocialLoginButton(
-              onTap: () => viewModel.act(LoginScreenAction.googleLogin()),
-              socialLogin: SocialLogin.google,
-            ),
-          ),
+          SocialLoginButton.google(onTap: () => viewModel.act(LoginScreenAction.googleLogin())),
           isiOS ? SizedBox(height: Sizes.defaultPaddingOfHeight * 2) : Container(),
           isiOS
-              ? SizedBox(
-                  height: size.height,
-                  child: SocialLoginButton(
-                    onTap: () => viewModel.act(LoginScreenAction.appleLogin()),
-                    socialLogin: SocialLogin.apple,
-                  ),
-                )
+              ? SocialLoginButton.apple(onTap: () => viewModel.act(LoginScreenAction.appleLogin()))
               : Container(),
           SizedBox(height: Sizes.defaultPaddingOfHeight),
           _policyText(),
+          const Spacer(),
+          SocialLoginButton.guest(onTap: () => viewModel.act(LoginScreenAction.guestLogin())),
         ],
       ),
     );

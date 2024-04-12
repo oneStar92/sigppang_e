@@ -4,53 +4,84 @@ import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/common/constants/text_styles.dart';
 import 'package:sigppang_e/presentation/common/tappable_widget.dart';
 
-enum SocialLogin { google, apple }
-
 final class SocialLoginButton extends TappableWidget {
-  final _size = Sizes.socialLoginButtonSize;
-  final SocialLogin _socialLogin;
+  final Color _backgroundColor;
+  final Color _borderColor;
+  final Widget? _logo;
+  final String _text;
+  final TextStyle _textStyle;
+  final TextAlign _textAlign;
 
-  SocialLoginButton({
+  const SocialLoginButton({
     super.key,
     required super.onTap,
-    required SocialLogin socialLogin,
-  }) : _socialLogin = socialLogin;
+    required Color backgroundColor,
+    Color borderColor = Colors.grey,
+    Widget? logo,
+    required String text,
+    required TextStyle textStyle,
+    TextAlign textAlign = TextAlign.left,
+  })  : _backgroundColor = backgroundColor, _borderColor = borderColor,
+        _logo = logo,
+        _text = text,
+        _textStyle = textStyle,
+        _textAlign = textAlign;
 
   @override
   Widget createContent(BuildContext context) {
+    final size = Sizes.socialLoginButtonSize;
     return Container(
+      height: size.height,
+      width: size.width,
       decoration: BoxDecoration(
         borderRadius: Sizes.defaultBorderRadius,
-        border: Border.all(color: Colors.grey),
-        color: _socialLogin == SocialLogin.apple ? Colors.black : Colors.white,
+        border: Border.all(color: _borderColor),
+        color: _backgroundColor,
       ),
       padding: Sizes.defaultHorizontalPadding,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _logo(),
-          const SizedBox(width: 24.0),
-          Expanded(child: _text()),
+          _logo ?? Container(),
+          _logo != null ? const SizedBox(width: 24.0) : Container(),
+          Expanded(child: Text(_text, style: _textStyle, textAlign: _textAlign)),
         ],
       ),
     );
   }
 
-  Widget _logo() {
-    switch (_socialLogin) {
-      case SocialLogin.google:
-        return SvgPicture.asset('assets/icons/google.svg', fit: BoxFit.cover, height: _size.height, width: _size.width,);
-      case SocialLogin.apple:
-        return SvgPicture.asset('assets/icons/apple.svg', fit: BoxFit.cover, height: _size.height, width: _size.width,);
-    }
-  }
+  factory SocialLoginButton.apple({required Function() onTap}) => SocialLoginButton(
+        onTap: onTap,
+        backgroundColor: Colors.black,
+        logo: SvgPicture.asset(
+          'assets/icons/apple.svg',
+          fit: BoxFit.cover,
+          height: Sizes.socialLoginLogoSize.height,
+          width: Sizes.socialLoginLogoSize.width,
+        ),
+        text: 'Apple로 로그인',
+        textStyle: TextStyles.socialLoginButtonTextStyle.copyWith(color: Colors.white),
+      );
 
-  Widget _text() {
-    switch (_socialLogin) {
-      case SocialLogin.google:
-        return Text('Google로 로그인', style: TextStyles.googleLoginButtonTextStyle);
-      case SocialLogin.apple:
-        return Text('Apple로 로그인', style: TextStyles.appleLoginButtonTextStyle);
-    }
-  }
+  factory SocialLoginButton.google({required Function() onTap}) => SocialLoginButton(
+        onTap: onTap,
+        backgroundColor: Colors.white,
+        logo: SvgPicture.asset(
+          'assets/icons/google.svg',
+          fit: BoxFit.cover,
+          height: Sizes.socialLoginLogoSize.height,
+          width: Sizes.socialLoginLogoSize.width,
+        ),
+        text: 'Google로 로그인',
+        textStyle: TextStyles.socialLoginButtonTextStyle.copyWith(color: Colors.black),
+      );
+
+  factory SocialLoginButton.guest({required Function() onTap}) => SocialLoginButton(
+        onTap: onTap,
+        backgroundColor: Colors.white,
+        borderColor: Colors.transparent,
+        text: '둘러보기',
+        textStyle: TextStyles.socialLoginButtonTextStyle.copyWith(color: Colors.black),
+        textAlign: TextAlign.center,
+      );
 }
