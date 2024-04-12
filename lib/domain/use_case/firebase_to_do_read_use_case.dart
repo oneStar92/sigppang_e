@@ -10,5 +10,5 @@ final class FirebaseToDoReadUseCase implements UseCase<Stream<List<ToDo>>, void>
   }) : _repository = repository;
 
   @override
-  Stream<List<ToDo>> execute({required void query}) => _repository.readAll();
+  Stream<List<ToDo>> execute({query}) => _repository.readAll();
 }

@@ -13,5 +13,5 @@ final class FirebaseSignOutUseCase implements UseCase<Future<void>, void> {
         _toDoRepository = toDoRepository;
 
   @override
-  Future<void> execute({required void query}) => _toDoRepository.deleteAll().then((_) => _authRepository.signOut());
+  Future<void> execute({query}) => _toDoRepository.deleteAll().then((_) => _authRepository.signOut());
 }

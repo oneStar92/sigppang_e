@@ -9,5 +9,5 @@ final class FirebaseLogoutUseCase implements UseCase<Future<void>, void> {
   }) : _repository = repository;
 
   @override
-  Future<void> execute({required void query}) => _repository.logout();
+  Future<void> execute({query}) => _repository.logout();
 }
