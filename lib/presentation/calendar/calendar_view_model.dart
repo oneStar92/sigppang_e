@@ -102,12 +102,13 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
         (calendarState, statusByDate) => (calendarState: calendarState, statusByDate: statusByDate),
       );
 
-  Stream<String> get title => _calendarState.map((state) => '${state.focusedDay.year}년 ${state.focusedDay.month}월');
+  Stream<String> get title =>
+      _calendarState.map((state) => state.focusedDay).distinct().map((date) => '${date.year}년 ${date.month}월');
 
   Stream<bool> get isMonthFormat => _calendarState.map((state) => state.isMonthFormat);
 
   Stream<List<ToDo>> get selectedToDoList => Rx.combineLatest2(
-        _calendarState.map((state) => state.selectedDay),
+        _calendarState.map((state) => state.selectedDay).distinct(),
         _toDoListByDate,
         (selectedDate, Map<CustomDateTime, List<ToDo>> toDoMap) =>
             toDoMap[CustomDateTime.from(selectedDate)]?.sorted((a, b) => a.createdAt.compareTo(b.createdAt)) ?? [],

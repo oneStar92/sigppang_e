@@ -11,5 +11,6 @@ class CalendarState with _$CalendarState {
     required bool isMonthFormat,
   }) = _CalendarState;
 
-  factory CalendarState.init() => CalendarState(focusedDay: DateTime.now(), selectedDay: DateTime.now(), isMonthFormat: true);
+  factory CalendarState.init() =>
+      CalendarState(focusedDay: DateTime.now(), selectedDay: DateTime.now(), isMonthFormat: true);
 }
