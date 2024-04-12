@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:sigppang_e/common/constants/sizes.dart';
 import 'package:sigppang_e/di/router.dart';
+import 'package:sigppang_e/presentation/util/auth_notifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko');
   await Firebase.initializeApp();
+  AuthNotifier.instance.sync();
   runApp(const MyApp());
 }
 
