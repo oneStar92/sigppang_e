@@ -11,6 +11,8 @@ import 'package:sigppang_e/domain/use_case/firebase_to_do_create_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_delete_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_read_use_case.dart';
 import 'package:sigppang_e/domain/use_case/firebase_to_do_update_use_case.dart';
+import 'package:sigppang_e/domain/use_case/guest_login_use_case.dart';
+import 'package:sigppang_e/domain/use_case/guest_logout_use_case.dart';
 import 'package:sigppang_e/presentation/calendar/calendar_view_model.dart';
 import 'package:sigppang_e/presentation/calendar/calendar_screen.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item.dart';
@@ -26,11 +28,13 @@ final class ScreenProvider {
 
   static LoginScreen buildLoginScreen() {
     final authRepository = FirebaseAuthRepositoryImpl.instance;
+    final guestLoginUseCase = GuestLoginUseCase();
     final googleLoginUseCase = FirebaseGoogleLoginUseCase(authRepository: authRepository);
     final appleLoginUseCase = FirebaseAppleLoginUseCase(authRepository: authRepository);
     final viewModel = LoginViewModel(
       googleLoginUseCase: googleLoginUseCase,
       appleLoginUseCase: appleLoginUseCase,
+      guestLoginUseCase: guestLoginUseCase,
     );
     return LoginScreen(viewModel: viewModel);
   }
@@ -42,8 +46,9 @@ final class ScreenProvider {
   static CalendarScreen buildCalendarScreen() {
     final repository = FirebaseToDoRepositoryImpl.instance;
     final readUseCase = FirebaseToDoReadUseCase(repository: repository);
+    final guestLogoutUseCase = GuestLogoutUseCase();
     return CalendarScreen(
-      viewModel: CalendarViewModel(readUseCase: readUseCase),
+      viewModel: CalendarViewModel(readUseCase: readUseCase, guestLogoutUseCase: guestLogoutUseCase),
     );
   }
 
@@ -52,7 +57,12 @@ final class ScreenProvider {
     final toDoRepository = FirebaseToDoRepositoryImpl.instance;
     final logoutUseCase = FirebaseLogoutUseCase(repository: authRepository);
     final signOutUseCase = FirebaseSignOutUseCase(authRepository: authRepository, toDoRepository: toDoRepository);
-    final viewModel = ETCViewModel(logoutUseCase: logoutUseCase, signOutUseCase: signOutUseCase);
+    final guestLogoutUseCase = GuestLogoutUseCase();
+    final viewModel = ETCViewModel(
+      logoutUseCase: logoutUseCase,
+      signOutUseCase: signOutUseCase,
+      guestLogoutUseCase: guestLogoutUseCase,
+    );
     return ETCScreen(viewModel: viewModel);
   }
 
