@@ -11,6 +11,7 @@ final class LoginViewModel extends ViewModel<LoginScreenAction> {
   final GuestLoginUseCase _guestLoginUseCase;
 
   LoginViewModel({
+    required super.activityTracker,
     required FirebaseGoogleLoginUseCase googleLoginUseCase,
     required FirebaseAppleLoginUseCase appleLoginUseCase,
     required GuestLoginUseCase guestLoginUseCase,

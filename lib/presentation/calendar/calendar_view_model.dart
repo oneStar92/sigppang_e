@@ -26,6 +26,7 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
   final StreamController<Error> _errorController = StreamController.broadcast();
 
   CalendarViewModel({
+    required super.activityTracker,
     required FirebaseToDoReadUseCase readUseCase,
     required GuestLogoutUseCase guestLogoutUseCase,
   })  : _readUseCase = readUseCase,

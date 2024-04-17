@@ -13,6 +13,7 @@ final class ETCViewModel extends ViewModel<ETCScreenAction> {
   final GuestLogoutUseCase _guestLogoutUseCase;
 
   ETCViewModel({
+    required super.activityTracker,
     required FirebaseLogoutUseCase logoutUseCase,
     required FirebaseSignOutUseCase signOutUseCase,
     required GuestLogoutUseCase guestLogoutUseCase,
