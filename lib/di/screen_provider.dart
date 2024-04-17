@@ -18,13 +18,17 @@ import 'package:sigppang_e/presentation/calendar/calendar_screen.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item.dart';
 import 'package:sigppang_e/presentation/calendar/widgets/to_do_item_view_model.dart';
 import 'package:sigppang_e/presentation/home/home_screen.dart';
+import 'package:sigppang_e/presentation/home/home_view_model.dart';
 import 'package:sigppang_e/presentation/login/login_screen.dart';
 import 'package:sigppang_e/presentation/login/login_view_model.dart';
 import 'package:sigppang_e/presentation/etc/etc_view_model.dart';
 import 'package:sigppang_e/presentation/etc/etc_screen.dart';
+import 'package:sigppang_e/presentation/util/activity_tracker.dart';
 
 final class ScreenProvider {
   ScreenProvider._internal();
+
+  static final _homeScreenActivityTracker = ActivityTracker();
 
   static LoginScreen buildLoginScreen() {
     final authRepository = FirebaseAuthRepositoryImpl.instance;
@@ -32,6 +36,7 @@ final class ScreenProvider {
     final googleLoginUseCase = FirebaseGoogleLoginUseCase(authRepository: authRepository);
     final appleLoginUseCase = FirebaseAppleLoginUseCase(authRepository: authRepository);
     final viewModel = LoginViewModel(
+      activityTracker: ActivityTracker(),
       googleLoginUseCase: googleLoginUseCase,
       appleLoginUseCase: appleLoginUseCase,
       guestLoginUseCase: guestLoginUseCase,
@@ -40,16 +45,20 @@ final class ScreenProvider {
   }
 
   static HomeScreen buildHomeScreen(StatefulNavigationShell navigationShell) {
-    return HomeScreen(navigationShell: navigationShell);
+    final viewModel = HomeViewModel(activityTracker: _homeScreenActivityTracker);
+    return HomeScreen(navigationShell: navigationShell, viewModel: viewModel);
   }
 
   static CalendarScreen buildCalendarScreen() {
     final repository = FirebaseToDoRepositoryImpl.instance;
     final readUseCase = FirebaseToDoReadUseCase(repository: repository);
     final guestLogoutUseCase = GuestLogoutUseCase();
-    return CalendarScreen(
-      viewModel: CalendarViewModel(readUseCase: readUseCase, guestLogoutUseCase: guestLogoutUseCase),
+    final viewModel = CalendarViewModel(
+      activityTracker: _homeScreenActivityTracker,
+      readUseCase: readUseCase,
+      guestLogoutUseCase: guestLogoutUseCase,
     );
+    return CalendarScreen(viewModel: viewModel);
   }
 
   static ETCScreen buildETCScreen() {
@@ -59,6 +68,7 @@ final class ScreenProvider {
     final signOutUseCase = FirebaseSignOutUseCase(authRepository: authRepository, toDoRepository: toDoRepository);
     final guestLogoutUseCase = GuestLogoutUseCase();
     final viewModel = ETCViewModel(
+      activityTracker: _homeScreenActivityTracker,
       logoutUseCase: logoutUseCase,
       signOutUseCase: signOutUseCase,
       guestLogoutUseCase: guestLogoutUseCase,
