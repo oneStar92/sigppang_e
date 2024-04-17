@@ -25,44 +25,44 @@ abstract class BaseViewState<T extends ViewModel, U extends BaseView<T>> extends
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: createAppbar(context),
-      body: StreamBuilder(
-        stream: viewModel.isLoadingStream,
-        builder: (context, snapshot) {
-          return Stack(
-            children: [
-              Positioned.fill(
-                child: SafeArea(child: createBody(context)),
+    return StreamBuilder(
+      stream: viewModel.isLoadingStream,
+      builder: (context, snapshot) {
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: Scaffold(
+                appBar: createAppbar(context),
+                body: SafeArea(child: createBody(context)),
+                bottomNavigationBar: createBottomNavigationBar(context),
               ),
-              Positioned.fill(
-                child: Offstage(
-                  offstage: snapshot.data ?? false,
-                  child: const Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Opacity(
-                          opacity: 0.5,
-                          child: ModalBarrier(
-                            dismissible: false,
-                            color: Colors.black,
-                          ),
+            ),
+            Positioned.fill(
+              child: Offstage(
+                offstage: snapshot.data ?? false,
+                child: const Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: ModalBarrier(
+                          dismissible: false,
+                          color: Colors.black,
                         ),
                       ),
-                      Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.grey,
-                        ),
+                    ),
+                    Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.grey,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: createBottomNavigationBar(context),
+            ),
+          ],
+        );
+      },
     );
   }
 
