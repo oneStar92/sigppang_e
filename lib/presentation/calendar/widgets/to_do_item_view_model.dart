@@ -39,8 +39,12 @@ final class ToDoItemViewModel {
         _toDo.add(_toDo.value.copyWith(title: action.title));
         break;
       case ChangeStatus():
-        if (_toDo.value.title.isNotEmpty) {
-          _updateUseCase.execute(query: toDo.copyWith(isDone: _toDo.value.isDone ? false : true));
+        if (toDo.title.isNotEmpty) {
+          if (toDo.id == null) {
+            _createUseCase.execute(query: toDo.copyWith(isDone: _toDo.value.isDone ? false : true));
+          } else {
+            _updateUseCase.execute(query: toDo.copyWith(isDone: _toDo.value.isDone ? false : true));
+          }
           _unfocusAction();
         }
         break;
