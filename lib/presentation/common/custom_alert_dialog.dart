@@ -45,7 +45,10 @@ final class CustomAlertDialog extends StatelessWidget {
             ),
             Expanded(
               child: TextButton(
-                onPressed: _okAction,
+                onPressed: () {
+                  _okAction();
+                  Navigator.pop(context);
+                },
                 child: Text(_okTitle, style: TextStyles.dialogContentsTextStyle.copyWith(color: _okTextColor)),
               ),
             ),
