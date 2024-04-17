@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sigppang_e/data/mappper/to_do_mapper.dart';
+import 'package:sigppang_e/domain/error/not_logged_in.dart';
 import 'package:sigppang_e/domain/model/to_do.dart';
 import 'package:sigppang_e/domain/repository/to_do_repository.dart';
 import 'package:sigppang_e/presentation/util/auth_notifier.dart';
@@ -30,7 +31,7 @@ final class FirebaseToDoRepositoryImpl implements ToDoRepository {
     if (uid != null) {
       return FirebaseFirestore.instance.collection(uid).doc().set(ToDoMapper.toDocument(toDo));
     } else {
-      return Future.error(Error());
+      return Future.error(NotLoggedIn);
     }
   }
 
@@ -40,7 +41,7 @@ final class FirebaseToDoRepositoryImpl implements ToDoRepository {
     if (uid != null) {
       return FirebaseFirestore.instance.collection(uid).doc(toDo.id).update(ToDoMapper.toDocument(toDo));
     } else {
-      return Future.error(Error());
+      return Future.error(NotLoggedIn);
     }
   }
 
@@ -50,7 +51,7 @@ final class FirebaseToDoRepositoryImpl implements ToDoRepository {
     if (uid != null) {
       return FirebaseFirestore.instance.collection(uid).doc(toDo.id).delete();
     } else {
-      return Future.error(Error());
+      return Future.error(NotLoggedIn);
     }
   }
 
@@ -69,7 +70,7 @@ final class FirebaseToDoRepositoryImpl implements ToDoRepository {
         },
       );
     } else {
-      return Future.error(Error());
+      return Future.error(NotLoggedIn);
     }
   }
 }
