@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp.router(
           routerConfig: router,
-          title: 'SigPpangE',
+          title: '식빵이',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             fontFamily: 'Suite',

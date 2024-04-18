@@ -13,10 +13,11 @@ class ToDo with _$ToDo {
     String? id,
     required String title,
     required bool isDone,
+    @TimestampConverter() required DateTime date,
     @TimestampConverter() required DateTime createdAt,
   }) = _ToDo;
 
-  factory ToDo.empty(DateTime date) => ToDo(title: '', isDone: false, createdAt: date);
+  factory ToDo.create(DateTime date) => ToDo(title: '', isDone: false, date: date, createdAt: DateTime.now());
 
   factory ToDo.fromJson(Map<String, Object?> json) => _$ToDoFromJson(json);
 }

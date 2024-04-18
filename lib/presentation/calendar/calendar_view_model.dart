@@ -45,7 +45,7 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
             <CustomDateTime, List<ToDo>>{},
             (previousValue, element) => previousValue
               ..update(
-                CustomDateTime.from(element.createdAt),
+                CustomDateTime.from(element.date),
                 (value) => value..add(element),
                 ifAbsent: () => [element],
               ),
@@ -107,7 +107,7 @@ final class CalendarViewModel extends ViewModel<CalendarScreenAction> {
             break;
           case AddToDo():
             if (AuthNotifier.instance.account is SigppangEUser) {
-              _toDoList.add(_toDoList.value..add(ToDo.empty(_calendarState.value.selectedDay)));
+              _toDoList.add(_toDoList.value..add(ToDo.create(_calendarState.value.selectedDay)));
             } else {
               _errorController.add(NotLoggedIn());
             }
