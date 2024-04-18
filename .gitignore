@@ -280,4 +280,9 @@ key.properties
 **/*.keystore
 **/*.jks
 
+firebase.json
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,androidstudio,xcode,flutter,dart
