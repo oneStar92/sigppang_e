@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sigppang_e/common/constants/constants.dart';
 import 'package:sigppang_e/data/repository/firebase_auth_repository_impl.dart';
 import 'package:sigppang_e/data/repository/firebase_to_do_repository_impl.dart';
 import 'package:sigppang_e/domain/model/to_do.dart';
@@ -23,6 +24,8 @@ import 'package:sigppang_e/presentation/login/login_screen.dart';
 import 'package:sigppang_e/presentation/login/login_view_model.dart';
 import 'package:sigppang_e/presentation/etc/etc_view_model.dart';
 import 'package:sigppang_e/presentation/etc/etc_screen.dart';
+import 'package:sigppang_e/presentation/policy/policy_screen.dart';
+import 'package:sigppang_e/presentation/policy/policy_view_model.dart';
 import 'package:sigppang_e/presentation/util/activity_tracker.dart';
 
 final class ScreenProvider {
@@ -42,6 +45,24 @@ final class ScreenProvider {
       guestLoginUseCase: guestLoginUseCase,
     );
     return LoginScreen(viewModel: viewModel);
+  }
+
+  static PolicyScreen buildTermsAndConditions() {
+    final viewModel = PolicyViewModel(
+      activityTracker: ActivityTracker(),
+      title: '서비스 이용약관',
+      policy: termsAndConditions,
+    );
+    return PolicyScreen(viewModel: viewModel);
+  }
+
+  static PolicyScreen buildPersonalInformationProcessingPolicy() {
+    final viewModel = PolicyViewModel(
+      activityTracker: ActivityTracker(),
+      title: '개인정보처리방침',
+      policy: personalInformationProcessingPolicy,
+    );
+    return PolicyScreen(viewModel: viewModel);
   }
 
   static HomeScreen buildHomeScreen(StatefulNavigationShell navigationShell) {
