@@ -75,10 +75,15 @@ final class _ETCScreenState extends BaseViewState<ETCViewModel, ETCScreen> {
                 ),
               ),
               Expanded(
-                child: Text(
-                  '1.0.0',
-                  textAlign: TextAlign.right,
-                  style: TextStyles.settingButtonTextStyle.copyWith(fontWeight: FontWeight.w700),
+                child: StreamBuilder(
+                  stream: viewModel.versionStream,
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data ?? '0',
+                      textAlign: TextAlign.right,
+                      style: TextStyles.settingButtonTextStyle.copyWith(fontWeight: FontWeight.w700),
+                    );
+                  }
                 ),
               ),
             ],
