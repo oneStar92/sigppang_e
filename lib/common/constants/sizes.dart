@@ -10,8 +10,8 @@ final class Sizes {
   static final defaultPaddingOfWidth = 8.w;
   static final defaultPaddingOfHeight = 8.h;
   static final separatorHeight = 4.h;
-  static final loginLogoSize = Size(300.w, 300.h);
-  static final socialLoginButtonSize = Size(300.w, 60.h);
+  static final loginLogoSize = Size(210.w, 210.h);
+  static final socialLoginButtonSize = Size(210.w, 60.h);
   static final socialLoginLogoSize = Size(40.w, 40.h);
   static final appbarLogoSize = Size(50.w, 50.h);
   static final calendarHeaderSize = Size(double.infinity, 50.h);

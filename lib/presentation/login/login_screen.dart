@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +28,7 @@ final class _LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(child: SigppangELogoBuilder.buildDoneLogo(size: Sizes.loginLogoSize)),
+        Expanded(child: Stack(children: [Center(child: SigppangELogoBuilder.buildDoneLogo(size: Sizes.loginLogoSize))],)),
         Expanded(child: _socialLoginButtons()),
       ],
     );
@@ -35,7 +36,7 @@ final class _LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen>
 
   Widget _socialLoginButtons() {
     return Padding(
-      padding: Sizes.defaultHorizontalPadding * 2,
+      padding: Sizes.defaultHorizontalPadding * 8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -53,6 +54,7 @@ final class _LoginScreenState extends BaseViewState<LoginViewModel, LoginScreen>
 
   Widget _policyText() {
     return RichText(
+      textAlign: TextAlign.center,
       text: TextSpan(
         style: TextStyles.policyTextStyle,
         children: <TextSpan>[
