@@ -11,7 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ko');
   await Firebase.initializeApp();
-  AuthNotifier.instance.sync();
   runApp(const MyApp());
 }
 

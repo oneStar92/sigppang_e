@@ -10,12 +10,11 @@ final class CustomDateTime extends DateTime {
   factory CustomDateTime.from(DateTime dateTime) {
     return CustomDateTime(dateTime.year, dateTime.month, dateTime.day);
   }
-}
 
-bool _isSameDay(DateTime? a, DateTime? b) {
-  if (a == null || b == null) {
-    return false;
+  bool _isSameDay(DateTime? a, DateTime? b) {
+    if (a == null || b == null) {
+      return false;
+    }
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
-
-  return a.year == b.year && a.month == b.month && a.day == b.day;
 }

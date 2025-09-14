@@ -1,36 +1,34 @@
-import 'package:rxdart/rxdart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sigppang_e/domain/model/account.dart';
 
 final class AuthNotifier extends ChangeNotifier {
-  final BehaviorSubject<Account?> _accountSubject = BehaviorSubject.seeded(null);
-
   static final AuthNotifier instance = AuthNotifier._internal();
 
   factory AuthNotifier() => instance;
 
-  Account? get account => _accountSubject.value;
+  Account? _account;
+
+  Account? get account => _account;
 
   AuthNotifier._internal() {
-    _accountSubject.listen((_) => notifyListeners());
-    FirebaseAuth.instance.authStateChanges().listen((_) => sync());
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user != null) {
+        _account = Account.user(uid: user.uid, email: user.email ?? 'Email UnVerified');
+      } else {
+        _account = null;
+      }
+      notifyListeners();
+    });
   }
 
   loginAsGuest() {
-    _accountSubject.add(Account.guest());
+    _account = Account.guest();
+    notifyListeners();
   }
 
   logoutAsGuest() {
-    _accountSubject.add(null);
-  }
-
-  sync() {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      _accountSubject.add(Account.user(uid: currentUser.uid, email: currentUser.email ?? 'Email UnVerified'));
-    } else {
-      _accountSubject.add(null);
-    }
+    _account = null;
+    notifyListeners();
   }
 }
